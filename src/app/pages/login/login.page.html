@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{titulo}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+<ion-thumbnail>
+  <img alt="Silhouette of mountains" src="assets/icon/jakartaEE.png" />
+</ion-thumbnail>
+<ion-card>
+  <ion-card-header>Login de usuario</ion-card-header>
+  <ion-card-content>
+    <ion-input [(ngModel)]="email" type="email" label="Correo" labelPlacement="stacked" fill="outline"></ion-input>
+    <!--<p>{{email}}</p>-->
+    <br>
+    <ion-input [(ngModel)]="password" type="password" label="Password" labelPlacement="stacked" fill="outline"></ion-input>
+    <br>
+    <ion-button (click)="login()" size="block" color="success">INGRESAR</ion-button>
+  </ion-card-content>
+</ion-card>
+<p>No tienes cuenta, regístrate <a routerLink="/registro">AQUÍ</a></p>
+
+</ion-content>

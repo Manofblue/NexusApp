@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div text-center>
+    <h3 class="ion-text-center"><strong>Registro De Nexxus</strong></h3>
+  </div>
+  <ion-card>
+    <!-- Formulario principal -->
+    <form [formGroup]="personaForm" (ngSubmit)="registrar()">
+      <ion-input formControlName="usuario" type="text" labelPlacement="stacked" label="Usuario"></ion-input>
+      <ion-input formControlName="email" type="email" labelPlacement="stacked" label="Email"></ion-input>
+      <ion-input formControlName="contrasena" type="password" labelPlacement="stacked" label="Contraseña"></ion-input>
+      <ion-input formControlName="contrasena_conf" type="password" labelPlacement="stacked" label="Confirme la Contraseña"></ion-input>
+      <ion-input formControlName="fecha_nacimiento" type="date" labelPlacement="stacked" label="Fecha nacimiento"></ion-input>
+
+      <ion-item>
+        <ion-label>¿Tiene vehículo?</ion-label>
+        <ion-checkbox formControlName="tieneVehiculo" (ionChange)="toggleFormulario()"></ion-checkbox>
+      </ion-item>
+
+      <div *ngIf="personaForm.get('tieneVehiculo')?.value">
+        <ion-card>
+          <ion-input formControlName="patente" type="text" labelPlacement="stacked" label="Patente"></ion-input>
+          <ion-input formControlName="marca" type="text" labelPlacement="stacked" label="Marca del auto"></ion-input>
+          <ion-input formControlName="modelo" type="text" labelPlacement="stacked" label="Modelo del auto"></ion-input>
+          <ion-input formControlName="color" type="text" labelPlacement="stacked" label="Color del auto"></ion-input>
+        </ion-card>
+      </div>
+
+      <div>
+        <ion-button *ngIf="!personaForm.get('tieneVehiculo')?.value" id="present-alert" [disabled]="personaForm.invalid" type="submit" size="block" color="warning">REGISTRAR</ion-button>
+        <ion-button *ngIf="personaForm.get('tieneVehiculo')?.value" [disabled]="personaForm.invalid" type="submit" size="block" color="warning">REGISTRAR CON VEHÍCULO</ion-button>
+      </div>
+    </form>
+
+    <ion-alert trigger="present-alert" header="Alerta!" [buttons]="alertButtons" (didDismiss)="setResult($event)"></ion-alert>
+  </ion-card>
+</ion-content>
