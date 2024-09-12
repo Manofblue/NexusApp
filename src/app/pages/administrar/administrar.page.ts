@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -30,7 +31,7 @@ export class AdministrarPage implements OnInit {
   usuarios:any[] = [];
 
   //el servicio nos permite trabajar la información:
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService,private alertController: AlertController) { }
 
   ngOnInit() {
     this.usuarios = this.usuarioService.getUsuarios();
@@ -61,10 +62,10 @@ export class AdministrarPage implements OnInit {
 
   registrar(){
     if( this.usuarioService.createUsuario(this.personaForm.value) ){
-      alert("USUARIO CREADO CON ÉXITO!");
+      this.showAlert("USUARIO CREADO CON ÉXITO!");
       this.personaForm.reset();
     }else{
-      alert("ERROR! NO SE PUDO CREAR EL USUARIO!");
+      this.showAlert("ERROR! NO SE PUDO CREAR EL USUARIO!")
     }
   }
 
@@ -77,18 +78,18 @@ export class AdministrarPage implements OnInit {
     var rut_buscar: string = this.personaForm.controls.rut.value || "";
     if(this.usuarioService.updateUsuario( rut_buscar , this.personaForm.value)){
       this.editar=false;
-      alert("USUARIO MODIFICADO CON ÉXITO!");
+      this.showAlert("USUARIO MODIFICADO CON ÉXITO!")
     }else{
-      alert("ERROR! USUARIO NO MODIFICADO!");
+      this.showAlert("ERROR! USUARIO NO MODIFICADO!")
     }
   }
 
   eliminar(rut_eliminar:string){
     //console.log(rut_eliminar);
     if( this.usuarioService.deleteUsuario(rut_eliminar) ){
-      alert("USUARIO ELIMINADO CON ÉXITO!")
+      this.showAlert("USUARIO ELIMINADO CON ÉXITO!")
     }else{
-      alert("ERROR! USUARIO NO ELIMINADO!")
+      this.showAlert("ERROR! USUARIO NO ELIMINADO!")
     }
   }
 
@@ -98,6 +99,16 @@ export class AdministrarPage implements OnInit {
   public limpiar():void{
     this.personaForm.reset();
     this.editar=false;
+  }
+
+  async showAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }
