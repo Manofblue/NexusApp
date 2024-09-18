@@ -15,11 +15,22 @@
 
   <ion-card class="custom-card">
     <form [formGroup]="personaForm" (ngSubmit)="registrar()">
+      <ion-input formControlName="rut" type="text" labelPlacement="stacked" label="RUT"></ion-input>
       <ion-input formControlName="usuario" type="text" labelPlacement="stacked" label="Usuario" fill="outline"></ion-input>
       <ion-input formControlName="email" type="email" labelPlacement="stacked" label="Email" fill="outline"></ion-input>
       <ion-input formControlName="contrasena" type="password" labelPlacement="stacked" label="Contraseña" fill="outline"></ion-input>
+      <div *ngIf="personaForm.errors?.['passwordMismatch']" class="error-message">
+
+        Las contraseñas no coinciden.
+      </div>
       <ion-input formControlName="contrasena_conf" type="password" labelPlacement="stacked" label="Confirme la Contraseña" fill="outline"></ion-input>
+
+      
       <ion-input formControlName="fecha_nacimiento" type="date" labelPlacement="stacked" label="Fecha nacimiento" fill="outline"></ion-input>
+      <div *ngIf="personaForm.get('fecha_nacimiento')?.errors?.['edadInvalida']" class="error-message">
+        Debes tener al menos 18 años.
+      </div>
+      
 
       <ion-item>
         <ion-label>¿Tiene vehículo?</ion-label>
@@ -40,8 +51,7 @@
         <ion-button *ngIf="personaForm.get('tieneVehiculo')?.value" [disabled]="personaForm.invalid" type="submit" expand="full" color="secondary">REGISTRAR CON VEHÍCULO</ion-button>
       </div>
     </form>
-
-    <ion-alert trigger="present-alert" header="Alerta!" [buttons]="alertButtons" (didDismiss)="setResult($event)"></ion-alert>
+      
   </ion-card>
 
 </ion-content>

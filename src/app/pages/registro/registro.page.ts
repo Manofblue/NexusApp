@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-registro',
@@ -12,18 +13,19 @@ export class RegistroPage implements OnInit {
   mostrarFormulario=false;
 
   personaForm =new FormGroup({
-    fecha_nacimiento: new FormControl( '', [Validators.required]),
+    fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
     usuario:new FormControl( '', [Validators.required, Validators.minLength(1)]),
     contrasena:new FormControl( '', [Validators.required, Validators.minLength(1)]),
     contrasena_conf:new FormControl( '', [Validators.required, Validators.minLength(1)]),
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required,Validators.email]),
     patente:new FormControl('', []),
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
     color:new FormControl('', []),
     tieneVehiculo: new FormControl(false) 
 
-  });
+  }, { validators: passwordMatchValidator() }); 
+
 
   public alertButtons = [
     {
@@ -42,7 +44,7 @@ export class RegistroPage implements OnInit {
     },
   ];
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router,private alertController: AlertController) {
 
   }
 
@@ -75,7 +77,8 @@ export class RegistroPage implements OnInit {
     console.log('Formulario antes de enviar:', this.personaForm.value);
     console.log('Formulario inválido:', this.personaForm.invalid);
     if (this.personaForm.valid) {
-      console.log(this.personaForm.value);
+      //console.log(this.personaForm.value);
+      this.showAlert("Registro Exitoso")
       this.router.navigate(['/login']);
     } else {
       console.log('Formulario no válido');
@@ -85,9 +88,22 @@ export class RegistroPage implements OnInit {
   setResult(ev: any) {
     console.log(`Dismissed with role: ${ev.detail.role}`);
   }
+
+  async showAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Mensaje',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
 }
 
-// Función de validador personalizada
+
+
+
 export function passwordMatchValidator(): ValidatorFn {
   return (formGroup: AbstractControl): { [key: string]: boolean } | null => {
     const password = formGroup.get('contrasena');
@@ -98,4 +114,23 @@ export function passwordMatchValidator(): ValidatorFn {
     }
     return null;
   };
+  }
+
+  export function edadValidacion(edadMinima: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const birthDate = new Date(control.value);
+      if (!birthDate.getTime()) {
+        return null; // Si no es una fecha válida
+      }
+      
+      const age = new Date().getFullYear() - birthDate.getFullYear();
+      const monthDifference = new Date().getMonth() - birthDate.getMonth();
+      
+      // Si no ha cumplido años este año, resta uno
+      if (monthDifference < 0 || (monthDifference === 0 && new Date() < birthDate)) {
+        return age < edadMinima ? { 'edadInvalida': true } : null;
+      }
+  
+      return age < edadMinima ? { 'edadInvalida': true } : null;
+    };
 }
