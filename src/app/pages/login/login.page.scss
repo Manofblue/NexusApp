@@ -1,4 +1,24 @@
-ion-thumbnail {
-    --size: 140px;
-    --border-radius: 14px;
-  }
+:root {
+  --ion-color-primary: #003366;  /* Azul oscuro */
+  --ion-color-primary-rgb: 0, 51, 102;
+  --ion-color-secondary: #007acc; /* Azul celeste */
+  --ion-color-secondary-rgb: 0, 122, 204;
+}
+
+.custom-card {
+  --background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+  --box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+}
+
+ion-card-title {
+  color: var(--ion-color-primary);
+}
+
+ion-label {
+  color: var(--ion-color-primary);
+}
+
+ion-button {
+  background-color: var(--ion-color-secondary);
+  color: white;
+}

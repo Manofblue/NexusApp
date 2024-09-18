@@ -7,23 +7,50 @@
 </ion-header>
 
 <ion-content>
+  <ion-button expand="full" color="primary" routerLink="/">
+    Volver al Inicio
+  </ion-button>
   
-  <h1>Pagina Home</h1>
+  <h1>Página Home</h1>
+
+  <p>¡Bienvenido a nuestra aplicación!</p>
+  <p>Esta aplicación te permite gestionar tus reservas, administrar tu cuenta y acceder a tu perfil personal.</p>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Características</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ul>
+        <li>Consulta tus reservas actuales y futuras.</li>
+        <li>Administra tus datos de usuario y preferencias.</li>
+        <li>Accede rápidamente a tu perfil y configuración.</li>
+      </ul>
+    </ion-card-content>
+  </ion-card>
+
 
 
   <ion-tabs>
     <ion-tab-bar slot="bottom">
       <ion-tab-button tab="reservas">
         <ion-icon name="calendar-number-sharp"></ion-icon>
+        <ion-label>Reservas</ion-label>
       </ion-tab-button>
       <ion-tab-button tab="administrar">
         <ion-icon name="key-sharp"></ion-icon>
+        <ion-label>Administrar</ion-label>
       </ion-tab-button>
       <ion-tab-button tab="perfil">
         <ion-icon name="person-sharp"></ion-icon>
+        <ion-label>Perfil</ion-label>
       </ion-tab-button>
-
+      <ion-tab-button tab="home" routerLink="/home">
+        <ion-icon name="home-sharp"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
+
 
 </ion-content>

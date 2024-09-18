@@ -1,0 +1,22 @@
+:root {
+    --ion-color-primary: #003366;  /* Azul oscuro */
+    --ion-color-secondary: #007acc; /* Azul celeste */
+  }
+  
+  .custom-card {
+    --background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+    --box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+    margin: 20px 0;
+  }
+  
+  .vehicle-card {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(240, 248, 255, 0.8); /* Fondo celeste claro */
+    border-radius: 8px;
+  }
+  
+  ion-input {
+    margin-bottom: 15px;
+  }
+  
