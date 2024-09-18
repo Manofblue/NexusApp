@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-registro',
@@ -14,9 +15,10 @@ export class RegistroPage implements OnInit {
 
   personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
-    usuario:new FormControl( '', [Validators.required, Validators.minLength(1)]),
-    contrasena:new FormControl( '', [Validators.required, Validators.minLength(1)]),
-    contrasena_conf:new FormControl( '', [Validators.required, Validators.minLength(1)]),
+    rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
+    usuario:new FormControl( '', [Validators.required, Validators.minLength(6)]),
+    contrasena:new FormControl( '', [Validators.required, Validators.minLength(3)]),
+    contrasena_conf:new FormControl( '', [Validators.required, Validators.minLength(3)]),
     email: new FormControl('', [Validators.required,Validators.email]),
     patente:new FormControl('', []),
     marca: new FormControl('',[]),
@@ -44,12 +46,13 @@ export class RegistroPage implements OnInit {
     },
   ];
 
-  constructor(private fb: FormBuilder, private router: Router,private alertController: AlertController) {
+  usuarios:any[] = [];
+
+  constructor(private fb: FormBuilder, private router: Router,private alertController: AlertController,private usuarioService: UsuarioService) {
 
   }
-
   ngOnInit() {
-    console.log('Formulario inicial:', this.personaForm.value);
+    this.usuarios = this.usuarioService.getUsuarios();
   }
 
   toggleFormulario() {
@@ -57,9 +60,9 @@ export class RegistroPage implements OnInit {
 
     if (mostrarFormulario) {
       this.personaForm.get('patente')?.setValidators([Validators.required]);
-      this.personaForm.get('marca')?.setValidators([Validators.required]);
-      this.personaForm.get('modelo')?.setValidators([Validators.required]);
-      this.personaForm.get('color')?.setValidators([Validators.required]);
+      this.personaForm.get('marca')?.setValidators([Validators.required,Validators.minLength(3)]);
+      this.personaForm.get('modelo')?.setValidators([Validators.required,Validators.minLength(3)]);
+      this.personaForm.get('color')?.setValidators([Validators.required,Validators.minLength(3)]);
     } else {
       this.personaForm.get('patente')?.clearValidators();
       this.personaForm.get('marca')?.clearValidators();
@@ -74,9 +77,9 @@ export class RegistroPage implements OnInit {
   }
 
   registrar(): void {
-    console.log('Formulario antes de enviar:', this.personaForm.value);
-    console.log('Formulario inválido:', this.personaForm.invalid);
+
     if (this.personaForm.valid) {
+      this.usuarioService.createUsuario(this.personaForm.value);
       //console.log(this.personaForm.value);
       this.showAlert("Registro Exitoso")
       this.router.navigate(['/login']);

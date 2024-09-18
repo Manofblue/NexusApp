@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, IonicSafeString } from '@ionic/angular';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -18,17 +19,18 @@ export class LoginPage implements OnInit {
   email: string = "";
   password: string = "";
 
-  constructor(private router: Router,private alertController: AlertController) { }
+  constructor(private router: Router,private alertController: AlertController, private usuarioService: UsuarioService) { }
 
   ngOnInit() {
   }
 
   //método asociado al boton para hacer un login:
   login(){
-    if(this.email=="1" && this.password=="2"){
+    if(this.usuarioService.login(this.email,this.password)){
+
+      
       this.router.navigate(['/home']);
     }else{
-      //alert("CORREO O CONTRASEÑA INCORRECTOS!");
       this.showAlert()
     }
   }

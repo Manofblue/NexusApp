@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -13,21 +13,22 @@ export class AdministrarPage implements OnInit {
 
   editar:boolean=false;
 
-  personaForm = new FormGroup({
-    fecha_nacimiento: new FormControl( '', [Validators.required]),
-    rut: new FormControl('',[Validators.required]),
-    usuario:new FormControl( '', [Validators.required, Validators.minLength(1)]),
-    contrasena:new FormControl( '', [Validators.required, Validators.minLength(1)]),
-    contrasena_conf:new FormControl( '', [Validators.required, Validators.minLength(1)]),
-    email: new FormControl('', [Validators.required]),
+  personaForm =new FormGroup({
+    fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
+    rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
+    usuario:new FormControl( '', [Validators.required, Validators.minLength(6)]),
+    contrasena:new FormControl( '', [Validators.required, Validators.minLength(3)]),
+    contrasena_conf:new FormControl( '', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl('', [Validators.required,Validators.email]),
     patente:new FormControl('', []),
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
     color:new FormControl('', []),
     tieneVehiculo: new FormControl(false) 
-  });
 
-  
+  }, { validators: passwordMatchValidator() }); 
+
+
   usuarios:any[] = [];
 
   //el servicio nos permite trabajar la información:
@@ -111,4 +112,36 @@ export class AdministrarPage implements OnInit {
     await alert.present();
   }
 
+}
+
+
+export function passwordMatchValidator(): ValidatorFn {
+  return (formGroup: AbstractControl): { [key: string]: boolean } | null => {
+    const password = formGroup.get('contrasena');
+    const confirmPassword = formGroup.get('contrasena_conf');
+
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      return { 'passwordMismatch': true };
+    }
+    return null;
+  };
+  }
+
+  export function edadValidacion(edadMinima: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      const birthDate = new Date(control.value);
+      if (!birthDate.getTime()) {
+        return null; // Si no es una fecha válida
+      }
+      
+      const age = new Date().getFullYear() - birthDate.getFullYear();
+      const monthDifference = new Date().getMonth() - birthDate.getMonth();
+      
+      // Si no ha cumplido años este año, resta uno
+      if (monthDifference < 0 || (monthDifference === 0 && new Date() < birthDate)) {
+        return age < edadMinima ? { 'edadInvalida': true } : null;
+      }
+  
+      return age < edadMinima ? { 'edadInvalida': true } : null;
+    };
 }

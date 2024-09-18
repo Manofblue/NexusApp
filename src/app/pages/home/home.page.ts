@@ -6,7 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  isAdmin: boolean;
 
-  constructor() {}
+  constructor() {
+    const rol = localStorage.getItem('rol');
+    this.isAdmin = rol === 'admin';
+
+  }
 
 }

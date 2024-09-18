@@ -9,19 +9,19 @@ export class UsuarioService {
 
   usuarios: any[] = [
     {
-      "rut": 12345678,
-      "nombre": "usuario1",
+      "rut": "12345678-9",
+      "nombre": "admin",
       "tipo_usuario": "admin",
       "fecha_nacimiento": "1990-01-01",
       "usuario": "usuario1",
-      "contrasena": "1",
-      "contrasena_conf": "1",
-      "email": "usuario1@example.com",
-      "patente": "ABC123",
-      "marca": "MarcaEjemplo",
-      "modelo": "ModeloEjemplo",
-      "color": "Rojo",
-      "tieneVehiculo": true
+      "contrasena": "123",
+      "contrasena_conf": "123",
+      "email": "admin@gmail.com",
+      "patente": "",
+      "marca": "",
+      "modelo": "",
+      "color": "",
+      "tieneVehiculo": false
     }
   ];
 
@@ -61,6 +61,21 @@ export class UsuarioService {
     }
     this.usuarios.splice(indice,1);
     return true;
+  }
+
+  /**
+   * login
+ :boolean  */
+ public login(email: string, contrasena: string): boolean {
+
+  const usuario = this.usuarios.find(u => u.email === email && u.contrasena === contrasena);
+  if (usuario) {
+    // Guarda el rol del usuario en algún lugar, como en un servicio de sesión
+    localStorage.setItem('rol', usuario.tipo_usuario); // Aquí guardas el rol en localStorage
+    return true;
+  }
+  return false;
+
   }
 
 }
