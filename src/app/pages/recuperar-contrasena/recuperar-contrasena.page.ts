@@ -10,27 +10,26 @@ export class RecuperarContrasenaPage implements OnInit {
 
   correo: string = "";
 
-
   constructor(private alertController: AlertController) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  public recuperarContrasena(): void {
+    if (this.isEmailValid()) {
+      this.showAlert();
+    }
   }
 
+  public isEmailValid(): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(this.correo);
+  }
 
-  /**
-   * name
-   */
-   public recuperarContrasena():void {
-   
-         this.showAlert;
-   
-    }
-
-   async showAlert() {
-    const alert =  await this.alertController.create({
+  async showAlert() {
+    const alert = await this.alertController.create({
       animated: true,
       backdropDismiss: true,
-      message: 'Correo Enviado a '+this.correo+' Para recuperar la contraseña',
+      message: 'Correo enviado a ' + this.correo + ' para recuperar la contraseña.',
       buttons: [
         {
           text: 'Cerrar',
@@ -40,6 +39,4 @@ export class RecuperarContrasenaPage implements OnInit {
     });
     await alert.present();
   }
-
-
 }

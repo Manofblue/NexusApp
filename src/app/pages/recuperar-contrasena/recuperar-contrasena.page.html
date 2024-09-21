@@ -7,7 +7,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -15,21 +14,18 @@
     </ion-toolbar>
   </ion-header>
 
-  
-    <form (ngSubmit)="recuperarContrasena()">
-      <ion-item>
-        <ion-label position="floating">Correo Electrónico</ion-label>
-        <ion-input type="email" [(ngModel)]="correo" name="correo" required></ion-input>
-      </ion-item>
+  <form (ngSubmit)="recuperarContrasena()">
+    <ion-item>
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input type="email" [(ngModel)]="correo" name="correo" required></ion-input>
+    </ion-item>
 
-      <ion-button (click)="recuperarContrasena()" expand="full" type="submit" [disabled]="!correo">Enviar</ion-button>
+    <ion-button expand="full" type="submit" [disabled]="!correo || !isEmailValid()">Enviar</ion-button>
+  </form>
 
-    </form>
-
-    <ion-row>
-      <ion-col>
-        <ion-router-link routerLink="/login">Volver al inicio de sesión</ion-router-link>
-      </ion-col>
-    </ion-row>
-
+  <ion-row>
+    <ion-col>
+      <ion-router-link routerLink="/login">Volver al inicio de sesión</ion-router-link>
+    </ion-col>
+  </ion-row>
 </ion-content>

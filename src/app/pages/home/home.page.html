@@ -45,9 +45,12 @@
         <ion-icon name="person-sharp"></ion-icon>
         <ion-label>Perfil</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="home" routerLink="/home">
+      <ion-tab-button tab="home" (ionSelect)="home()">
         <ion-icon name="home-sharp"></ion-icon>
         <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+      <ion-tab-button routerLink="/">
+        <ion-label>Cerrar Sesion</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>

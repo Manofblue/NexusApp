@@ -27,8 +27,8 @@ export class LoginPage implements OnInit {
   //método asociado al boton para hacer un login:
   login(){
     if(this.usuarioService.login(this.email,this.password)){
-
-      
+      this.email="";
+      this.password="";
       this.router.navigate(['/home']);
     }else{
       this.showAlert()

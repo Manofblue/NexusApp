@@ -70,8 +70,8 @@ export class UsuarioService {
 
   const usuario = this.usuarios.find(u => u.email === email && u.contrasena === contrasena);
   if (usuario) {
-    // Guarda el rol del usuario en algún lugar, como en un servicio de sesión
-    localStorage.setItem('rol', usuario.tipo_usuario); // Aquí guardas el rol en localStorage
+    localStorage.setItem('rol', usuario.tipo_usuario); 
+    localStorage.setItem('idUsuario', usuario.rut); 
     return true;
   }
   return false;
