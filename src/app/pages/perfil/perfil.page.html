@@ -1,15 +1,65 @@
-<ion-content>
-  
-    <ion-card *ngIf="usuario">
-        <ion-card-header>
-          <ion-card-title>{{ usuario.nombre }}</ion-card-title>
-          <ion-card-subtitle>{{ usuario.email }}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <p><strong>RUT:</strong> {{ usuario.rut }}</p>
-          <p><strong>Fecha de Nacimiento:</strong> {{ usuario.fecha_nacimiento | date }}</p>
-          <p><strong>Tiene Vehículo:</strong> {{ usuario.tieneVehiculo ? 'Sí' : 'No' }}</p>
-        </ion-card-content>
-      </ion-card>
+<ion-content [fullscreen]="true">
 
+  <ion-grid class="main-header">
+    <div align="center">
+      <ion-avatar>
+        <img src="assets/icon/iconPerfil1.webp">
+      </ion-avatar>
+    </div>
+  </ion-grid>
+
+  <ion-row class="ion-padding-horizontal">
+    <ion-col size="6">
+      <ion-item lines="none" class="ion-text-center">
+        <ion-icon name="car" color="primary"></ion-icon>
+        <ion-title>Piloto</ion-title>
+        <ion-label>
+          3
+        </ion-label>
+      </ion-item>
+    </ion-col>
+    <ion-col size="6">
+      <ion-item lines="none" class="ion-text-center">
+        <ion-icon name="people" color="primary"></ion-icon>
+        <ion-title>Pasajero</ion-title>
+        <ion-label>
+          15
+        </ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>
+        <ion-text>Nombre</ion-text>
+        <p>{{ usuario.usuario }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-text>Correo</ion-text>
+        <p>{{ usuario.email }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-text>RUT</ion-text>
+        <p> {{ usuario.rut }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-text>Fecha de nacimiento</ion-text>
+        <p>{{ usuario.fecha_nacimiento | date }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-text>Vehiculo</ion-text>
+        <p>{{ usuario.tieneVehiculo ? 'Sí' : 'No' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
+

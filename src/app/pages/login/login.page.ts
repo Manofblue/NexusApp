@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
     if(this.usuarioService.login(this.email,this.password)){
       this.email="";
       this.password="";
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home','inicio']);//con esto dejamos al usuario en la opcion Inicio del tab
     }else{
       this.showAlert()
     }

@@ -1,39 +1,112 @@
-:root {
-  --ion-color-primary: #003366;  /* Azul oscuro */
-  --ion-color-primary-rgb: 0, 51, 102;
-  --ion-color-secondary: #007acc; /* Azul celeste */
-  --ion-color-secondary-rgb: 0, 122, 204;
+.circleBase {
+  border-radius: 30%;
 }
 
-.custom-card {
-  --background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
-  --box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+.type1 {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background: linear-gradient(90deg,#3b70cc 0%, #3b70cc);
+  box-shadow: 0px 1px 10px rgba(65, 190, 240, 0.5);
+  top: -50px;
+  left: -50px;
 }
 
-ion-card-title {
-  color: var(--ion-color-primary);
+.type2 {
+
+  width: 100px;
+  height: 100px;
+  background: #000;
 }
 
-ion-label {
-  color: var(--ion-color-primary);
+.circle1{
+  margin-left: 180px;
+  margin-top: 50px;
 }
 
-ion-button {
-  background-color: var(--ion-color-secondary);
-  color: white;
+.circle2{
+  position: absolute;
+  top: 150px;
+  left: -20px;
 }
 
-.full-image {
-  display: flex; /* Utiliza flexbox */
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  width: 60%; /* Ancho del thumbnail */
-  margin: 0 auto; /* Centra el thumbnail en el contenedor */
+.type3 {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background: linear-gradient(90deg,#3b70cc 0%, #3b70cc);
+  box-shadow: 0px 1px 10px rgba(65, 190, 240, 0.5);
+  top: 720px;
+  left: 340px;
 }
 
-.full-image img {
-  width: 80%; /* La imagen ocupa todo el ancho del thumbnail */
-  height: auto; /* Mantiene la proporción de la imagen */
-  object-fit: contain; /* Ajusta la imagen sin recortarla */
+.circle3{
+  margin-left: 450px;
+  margin-top: 150px;
 }
+
+.circle4{
+  position: absolute;
+  top: 800px;
+  left: 260px;
+}
+
+.MensajeBienvenida{
+  position: absolute;
+  top: 70px;
+  left: 50px;
+  p {
+    font-weight: bold;
+    font-size: 1.8rem;
+    margin-top: 5px;
+  }
+}
+
+ion-list{
+  background: transparent;
+  transform: translateY(20vh);
+  ion-item{
+    border: 1px solid var(--ion-color-medium);
+    border-radius: 10px;
+  }
+  ion-row{
+    margin-bottom: 5vh;
+  }
+  ion-buttom{
+    width: 30vh;
+    margin: auto;
+  }
+  .alignItems {
+    ion-checkbox, ion-note {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    ion-checkbox{
+      margin-right: 1vw;
+      --size: 1.1rem ;
+    }
+  }
+  .signup{
+    margin-top: 5vh;
+    font-size: 0.8rem;
+  }
+  ion-col{
+    ion-note{
+      font-size: 0.85rem;
+    }
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 120vh; /* Asegura que ocupe toda la pantalla */
+}
+
+.logo {
+  width: 160px; 
+}
+
+
 

@@ -1,0 +1,48 @@
+.home-content {
+    padding: 16px;
+    background-color: #f8f9fa; /* Color de fondo suave */
+    text-align: center; /* Centrar el texto */
+  }
+  
+  .welcome-title {
+    font-size: 2.5rem; /* Tamaño del título */
+    color: #3b70cc; /* Color principal */
+    margin-bottom: 16px;
+  }
+  
+  .welcome-message {
+    font-size: 1.5rem; /* Tamaño del mensaje de bienvenida */
+    color: #495057; /* Color gris oscuro */
+    margin-bottom: 8px;
+  }
+  
+  .description {
+    font-size: 1rem; /* Tamaño de la descripción */
+    color: #6c757d; /* Color gris claro */
+    margin-bottom: 24px;
+  }
+  
+  .features-card {
+    background-color: #fff; /* Fondo blanco */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 12px; /* Bordes redondeados */
+  }
+  
+  .card-title {
+    color: #3b70cc; /* Color del título del card */
+    font-weight: bold; /* Negrita */
+  }
+  
+  .features-list {
+    list-style-type: none; /* Sin viñetas */
+    padding: 0; /* Sin padding */
+    margin: 0; /* Sin margen */
+    text-align: left; /* Alinear texto a la izquierda */
+  }
+  
+  .features-list li {
+    padding: 8px 0; /* Espaciado entre elementos */
+    font-size: 1rem; /* Tamaño de fuente */
+    color: #495057; /* Color del texto */
+  }
+  

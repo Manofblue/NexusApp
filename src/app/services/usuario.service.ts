@@ -13,7 +13,7 @@ export class UsuarioService {
       "nombre": "admin",
       "tipo_usuario": "admin",
       "fecha_nacimiento": "1990-01-01",
-      "usuario": "usuario1",
+      "usuario": "admin",
       "contrasena": "123",
       "contrasena_conf": "123",
       "email": "admin@gmail.com",

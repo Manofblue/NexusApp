@@ -9,16 +9,25 @@ const routes: Routes = [
     children: [
       {
         path: 'reservas',
-        loadChildren: () => import('../reservas/reservas.module').then( m => m.ReservasPageModule)
+        loadChildren: () => import('../reservas/reservas.module').then(m => m.ReservasPageModule)
       },
       {
         path: 'administrar',
-        loadChildren: () => import('../administrar/administrar.module').then( m => m.AdministrarPageModule)
+        loadChildren: () => import('../administrar/administrar.module').then(m => m.AdministrarPageModule)
       },
       {
         path: 'perfil',
-        loadChildren: () => import('../perfil/perfil.module').then( m => m.PerfilPageModule)
+        loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule)
       },
+      {
+        path: 'inicio',
+        loadChildren: () => import('../inicio/inicio.module').then(m => m.InicioPageModule)
+      },
+      {
+        path: '',
+        redirectTo: 'inicio',  // Redirige a inicio si no hay subruta especificada
+        pathMatch: 'full'
+      }
     ]
   }
 ];
@@ -28,3 +37,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class HomePageRoutingModule {}
+

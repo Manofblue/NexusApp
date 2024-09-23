@@ -105,8 +105,6 @@ export class RegistroPage implements OnInit {
 }
 
 
-
-
 export function passwordMatchValidator(): ValidatorFn {
   return (formGroup: AbstractControl): { [key: string]: boolean } | null => {
     const password = formGroup.get('contrasena');
