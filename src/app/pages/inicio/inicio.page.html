@@ -1,27 +1,29 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>
-      Inicio
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
+  
+  <div class="circleBase type1"></div> 
+  <div class="circleBase type2 circle2"></div>
+  <div class="circleBase type2 circle3"></div> 
 
-<ion-content class="home-content">
-  <h1 class="welcome-title">Página Home</h1>
+  <ion-label class="MensajeBienvenida">
+    <ion-text color="light">Bienvenido a,</ion-text>
+    <p><img src="../../assets/imgs/nexxus.png" alt="Logo" class="logo"></p>
+  </ion-label>
 
-  <p class="welcome-message">¡Bienvenido a nuestra aplicación!</p>
-  <p class="description">Esta aplicación te permite gestionar tus reservas, administrar tu cuenta y acceder a tu perfil personal.</p>
-
-  <ion-card class="features-card">
-    <ion-card-header>
-      <ion-card-title class="card-title">Características</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ul class="features-list">
-        <li>Consulta tus reservas actuales y futuras.</li>
-        <li>Administra tus datos de usuario y preferencias.</li>
-        <li>Accede rápidamente a tu perfil y configuración.</li>
-      </ul>
-    </ion-card-content>
-  </ion-card>
+  <!-- Recuadro para las utilidades -->
+  <div class="utilidades-recuadro">
+    <h3>¡Bienvenido a nuestra aplicación! Nuestro objetivo es asegurarte un viaje seguro y saludable hacia tu hogar, especialmente en estos tiempos de pandemia.</h3>
+    <ul>
+      <img src="../../assets/imgs/duoc.jpg" alt="Descripción de la imagen" class="mi-imagen">
+    </ul>
+    <h2>Utilidades de nuestra app!</h2>
+    <ul>
+      <li>-Planificación de Viajes</li>
+      <li>-Personalización del Perfil</li>
+      <li>-Seguridad de Cuentas</li>
+    </ul>
+  </div>
 </ion-content>
+
+
+    
+

@@ -37,10 +37,15 @@ export class LoginPage implements OnInit {
 
 
   async showAlert() {
-    const alert =  await this.alertController.create({
+    const alert = await this.alertController.create({
       animated: true,
       backdropDismiss: true,
-      message: new IonicSafeString(`<img src="../../assets/imgs/popin.jpeg" alt="photo" />`),
+      message: new IonicSafeString(`
+        <div style="text-align: center;">
+          <img src="../../assets/imgs/sadMonky.jpg" alt="photo" />
+          <p style="color: blue; margin-top: 10px;">Credenciales incorrectas</p>
+        </div>
+      `),
       buttons: [
         {
           text: 'Cerrar',
@@ -50,6 +55,4 @@ export class LoginPage implements OnInit {
     });
     await alert.present();
   }
-
-
 }
