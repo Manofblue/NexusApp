@@ -16,10 +16,10 @@ export class RegistroPage implements OnInit {
   personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
     rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
-    usuario:new FormControl( '', [Validators.required, Validators.minLength(6)]),
-    contrasena:new FormControl( '', [Validators.required, Validators.minLength(3)]),
-    contrasena_conf:new FormControl( '', [Validators.required, Validators.minLength(3)]),
-    email: new FormControl('', [Validators.required,Validators.email]),
+    usuario:new FormControl( '', [Validators.required, Validators.minLength(3)]),
+    contrasena:new FormControl( '', [Validators.required, Validators.pattern("^(?=.*[-!#$%&/()?¡_.])(?=.*[A-Za-z])(?=.*[a-z]).{8,}$")]),
+    contrasena_conf:new FormControl( '', [Validators.required,Validators.pattern("^(?=.*[-!#$%&/()?¡_.])(?=.*[A-Za-z])(?=.*[a-z]).{8,}$")]),
+    email: new FormControl('', [Validators.required,Validators.email, Validators.pattern("[a-zA-Z0-9.]+(@duocuc.cl)")]),
     patente:new FormControl('', []),
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
@@ -49,8 +49,10 @@ export class RegistroPage implements OnInit {
   usuarios:any[] = [];
 
   constructor(private fb: FormBuilder, private router: Router,private alertController: AlertController,private usuarioService: UsuarioService) {
-
+    this.personaForm.get("rut")?.setValidators([Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}"),this.validarRut()]);
+  
   }
+  
   ngOnInit() {
     this.usuarios = this.usuarioService.getUsuarios();
   }
@@ -100,6 +102,34 @@ export class RegistroPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  validarRut():ValidatorFn{
+    return () => {
+      const rut = this.personaForm.controls.rut.value;
+      const dv_validar = rut?.replace("-","").split("").splice(-1).reverse()[0];
+      let rut_limpio = [];
+      if(rut?.length==10){
+        rut_limpio = rut?.replace("-","").split("").splice(0,8).reverse();
+      }else{
+        rut_limpio = rut?.replace("-","").split("").splice(0,7).reverse() || [];
+      }
+      let factor = 2;
+      let total = 0;
+      for(let num of rut_limpio){
+        total = total + ((+num)*factor);
+        factor = factor + 1;
+        if(factor==8){
+          factor = 2;
+        }
+      }
+      var dv = (11-(total%11)).toString();
+      if(+dv>=10){
+        dv = "k";
+      }
+      if(dv_validar!=dv.toString()) return {isValid: false};
+      return null;
+    };
   }
 
 }
