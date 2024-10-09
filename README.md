@@ -18,3 +18,12 @@ Este proyecto es una aplicación móvil de reserva de viajes inspirada en plataf
    npm install
    ionic serve
 
+## Por Hacer
+
+- [ ] Crear viaje.
+- [ ] Tomar Viaje.
+- [ ] Visualizar mapa.
+- [ ] Administrar Viaje
+- [ ] Validar Viaje "Cupos o asientos".
+- [ ] Mejorar las validaciones del registro.
+
