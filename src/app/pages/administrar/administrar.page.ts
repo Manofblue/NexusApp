@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import { Usuario } from 'src/app/models/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -29,13 +30,17 @@ export class AdministrarPage implements OnInit {
   }, { validators: passwordMatchValidator() }); 
 
 
-  usuarios:any[] = [];
+  usuarios:Usuario[] = [];
+
+
 
   //el servicio nos permite trabajar la información:
   constructor(private usuarioService: UsuarioService,private alertController: AlertController) { }
 
-  ngOnInit() {
-    this.usuarios = this.usuarioService.getUsuarios();
+  async ngOnInit() {
+
+    this.usuarios = await this.usuarioService.getUsuarios();
+
   }
 
 
@@ -61,33 +66,95 @@ export class AdministrarPage implements OnInit {
   }
 
 
-  registrar(){
-    if( this.usuarioService.createUsuario(this.personaForm.value) ){
-      this.showAlert("USUARIO CREADO CON ÉXITO!");
-      this.personaForm.reset();
-    }else{
-      this.showAlert("ERROR! NO SE PUDO CREAR EL USUARIO!")
+  async registrar(){
+    if (this.personaForm.valid) {
+      const nuevoUsuario = new Usuario(
+        this.personaForm.value.fecha_nacimiento ?? '',
+        this.personaForm.value.rut ?? '',
+        'Usuario', // tipo_usuario
+        this.personaForm.value.usuario ?? '',
+        this.personaForm.value.contrasena ?? '',
+        this.personaForm.value.contrasena_conf ?? '',
+        this.personaForm.value.email ?? '',
+        this.personaForm.value.patente ?? '',
+        this.personaForm.value.marca ?? '',
+        this.personaForm.value.modelo ?? '',
+        this.personaForm.value.color ?? '',
+        this.personaForm.value.tieneVehiculo ?? false
+      );
+      
+      const result = await this.usuarioService.createUsuario(nuevoUsuario);
+      if (result) {
+        this.showAlert("Registro Exitoso");
+        this.usuarios = await this.usuarioService.getUsuarios();
+      } else {
+        this.showAlert("El usuario ya existe");
+      }
+    } else {
+      console.log('Formulario no válido');
     }
   }
 
-  buscar(rut_buscar:string){
-    this.personaForm.setValue( this.usuarioService.getUsuario(rut_buscar) );
-    this.editar=true;
+  async buscar(rut_buscar:string){
+    
+    //this.personaForm.setValue(await this.usuarioService.getUsuario(rut_buscar) );
+    //this.cargarUsuario(await this.usuarioService.getUsuario(rut_buscar));
+    const usuario=await this.usuarioService.getUsuario(rut_buscar);
+    
+    if(usuario){
+      this.cargarUsuario(usuario);
+      this.editar=true;
+    }
   }
 
-  modificar(){
+  public cargarUsuario(usuario: Usuario): void {
+    this.personaForm.patchValue({
+      fecha_nacimiento: usuario.fecha_nacimiento,
+      rut: usuario.rut,
+      usuario: usuario.usuario,
+      contrasena: usuario.contrasena,
+      contrasena_conf: usuario.contrasena_conf,
+      email: usuario.email,
+      patente: usuario.patente,
+      marca: usuario.marca,
+      modelo: usuario.modelo,
+      color: usuario.color,
+      tieneVehiculo: usuario.tieneVehiculo
+    });
+  }
+  
+
+  async modificar(){
     var rut_buscar: string = this.personaForm.controls.rut.value || "";
-    if(this.usuarioService.updateUsuario( rut_buscar , this.personaForm.value)){
+    if (this.personaForm.valid) {
+      const nuevoUsuario = new Usuario(
+      this.personaForm.value.rut ?? '',
+      'Usuario',
+      this.personaForm.value.fecha_nacimiento ?? '',
+      this.personaForm.value.usuario ?? '',
+      this.personaForm.value.contrasena ?? '',
+      this.personaForm.value.contrasena_conf ?? '',
+      this.personaForm.value.email ?? '',
+      this.personaForm.value.patente ?? '',
+      this.personaForm.value.marca ?? '',
+      this.personaForm.value.modelo ?? '',
+      this.personaForm.value.color ?? '',
+      this.personaForm.value.tieneVehiculo ?? false
+    );
+    
+    if(await this.usuarioService.updateUsuario( rut_buscar , nuevoUsuario)){
       this.editar=false;
       this.showAlert("USUARIO MODIFICADO CON ÉXITO!")
+    }
+
     }else{
       this.showAlert("ERROR! USUARIO NO MODIFICADO!")
     }
   }
 
-  eliminar(rut_eliminar:string){
+  async eliminar(rut_eliminar:string){
     //console.log(rut_eliminar);
-    if( this.usuarioService.deleteUsuario(rut_eliminar) ){
+    if(await this.usuarioService.deleteUsuario(rut_eliminar) ){
       this.showAlert("USUARIO ELIMINADO CON ÉXITO!")
     }else{
       this.showAlert("ERROR! USUARIO NO ELIMINADO!")

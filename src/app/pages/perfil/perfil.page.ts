@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from 'src/app/models/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -8,16 +9,27 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class PerfilPage implements OnInit {
 
-  usuario: any;
+  usuario: Usuario | null = null; // Inicialmente nulo
+
   rut:string="";
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService) {
 
-  ngOnInit() {
+    
+
+   }
+
+  async ngOnInit() {
     const rutCokie = localStorage.getItem('idUsuario');
     if (rutCokie) {
       this.rut = rutCokie; 
-      this.usuario = this.usuarioService.getUsuario(this.rut); 
+      const datosUsuario = await this.usuarioService.getUsuario(rutCokie);
+      if (datosUsuario) {
+        this.usuario = datosUsuario; 
+      } else {
+        console.log('Usuario no encontrado');
+      }
+   
     }
 
   }

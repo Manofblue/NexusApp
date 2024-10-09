@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Usuario } from '../models/Usuario';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -25,57 +27,94 @@ export class UsuarioService {
     }
   ];
 
-  constructor() { }
+  constructor(private storage: Storage) { 
+    this.init();
+  }
+
+  async init() {
+    await this.storage.create();
+    let admin = new Usuario(
+      "1990-01-01",        // fecha_nacimiento
+      "12345678-9",       // rut
+      "admin",            // tipo_usuario
+      "admin",            // usuario
+      "123",              // contrasena
+      "123",              // contrasena_conf
+      "admin@gmail.com",  // email
+      "",                 // patente
+      "",                 // marca
+      "",                 // modelo
+      "",                 // color
+      false               // tieneVehiculo
+    );
+    await this.createUsuario(admin);
+  }
+  
 
   //aquí vamos a crear toda nuestra lógica de programación
   //DAO:
-  public createUsuario(usuario:any):boolean{
-    if( this.getUsuario(usuario.rut)==undefined ){
-      this.usuarios.push(usuario);
+  public async createUsuario(usuario: Usuario): Promise<boolean> {
+    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    if (usuarios.find((usu) => usu.rut === usuario.rut) != undefined) {
+      return false;
+    }
+    usuarios.push(usuario);
+    await this.storage.set('usuarios', usuarios);
+    return true;
+  }
+
+  public async getUsuario(rut: string): Promise<Usuario | undefined> {
+    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    return usuarios.find((usu) => usu.rut === rut);
+  }
+
+  public async getUsuarios(): Promise<Usuario[]> {
+    return (await this.storage.get('usuarios')) || [];
+  }
+
+  public async updateUsuario(rut: string, nuevoUsuario: Usuario): Promise<boolean> {
+    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    const indice = usuarios.findIndex((usu) => usu.rut === rut);
+    if (indice === -1) {
+      return false;
+    }
+
+    usuarios[indice] = nuevoUsuario;
+    await this.storage.set('usuarios', usuarios);
+    return true;
+  }
+
+  public async deleteUsuario(rut: string): Promise<boolean> {
+    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    const indice = usuarios.findIndex((usu) => usu.rut === rut);
+    if (indice === -1) {
+      return false;
+    }
+    usuarios.splice(indice, 1);
+    await this.storage.set('usuarios', usuarios);
+    return true;
+  }
+
+  public async login(correo: string, contrasena: string): Promise<Boolean> {
+    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    //return usuarios.find((elemento) => elemento.email === correo && elemento.contrasena === contrasena);
+    const usuario = usuarios.find((elemento) => elemento.email === correo && elemento.contrasena === contrasena);
+    if (usuario) {
+      localStorage.clear();
+      localStorage.setItem('rol', usuario.tipo_usuario); 
+      localStorage.setItem('idUsuario', usuario.rut); 
       return true;
     }
     return false;
+
+  
   }
 
-  public getUsuario(rut:string){
-    return this.usuarios.find(elemento=> elemento.rut == rut);
+  public async recuperarUsuario(correo: string): Promise<Usuario | undefined> {
+    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    return usuarios.find((elemento) => elemento.email === correo);
   }
 
-  public getUsuarios():any[]{
-    return this.usuarios;
-  }
 
-  public updateUsuario(rut:string, nuevoUsuario:any){
-    const indice = this.usuarios.findIndex(elemento => elemento.rut==rut);
-    if(indice==-1){
-      return false;
-    }
-    this.usuarios[indice] = nuevoUsuario;
-    return true;
-  }
-
-  public deleteUsuario(rut:string):boolean{
-    const indice = this.usuarios.findIndex(elemento => elemento.rut==rut);
-    if(indice==-1){
-      return false;
-    }
-    this.usuarios.splice(indice,1);
-    return true;
-  }
-
-  /**
-   * login
- :boolean  */
- public login(email: string, contrasena: string): boolean {
-
-  const usuario = this.usuarios.find(u => u.email === email && u.contrasena === contrasena);
-  if (usuario) {
-    localStorage.setItem('rol', usuario.tipo_usuario); 
-    localStorage.setItem('idUsuario', usuario.rut); 
-    return true;
-  }
-  return false;
-
-  }
 
 }

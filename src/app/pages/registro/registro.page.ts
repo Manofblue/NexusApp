@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Usuario } from 'src/app/models/Usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class RegistroPage implements OnInit {
 
   mostrarFormulario=false;
 
-  personaForm =new FormGroup({
+  /*personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
     rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
     usuario:new FormControl( '', [Validators.required, Validators.minLength(3)]),
@@ -26,7 +27,23 @@ export class RegistroPage implements OnInit {
     color:new FormControl('', []),
     tieneVehiculo: new FormControl(false) 
 
+  }, { validators: passwordMatchValidator() }); */
+
+  personaForm =new FormGroup({
+    fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
+    rut: new FormControl('',[Validators.required]),
+    usuario:new FormControl( '', [Validators.required, Validators.minLength(3)]),
+    contrasena:new FormControl( '', [Validators.required]),
+    contrasena_conf:new FormControl( '', [Validators.required]),
+    email: new FormControl('', [Validators.required,Validators.email]),
+    patente:new FormControl('', []),
+    marca: new FormControl('',[]),
+    modelo:new FormControl('', []),
+    color:new FormControl('', []),
+    tieneVehiculo: new FormControl(false) 
+
   }, { validators: passwordMatchValidator() }); 
+
 
 
   public alertButtons = [
@@ -54,7 +71,7 @@ export class RegistroPage implements OnInit {
   }
   
   ngOnInit() {
-    this.usuarios = this.usuarioService.getUsuarios();
+    //this.usuarios = this.usuarioService.getUsuarios();
   }
 
   toggleFormulario() {
@@ -78,10 +95,37 @@ export class RegistroPage implements OnInit {
     this.personaForm.get('color')?.updateValueAndValidity();
   }
 
-  registrar(): void {
+  async registrar(): Promise<void> {
 
     if (this.personaForm.valid) {
-      this.usuarioService.createUsuario(this.personaForm.value);
+      const nuevoUsuario = new Usuario(
+        this.personaForm.value.fecha_nacimiento ?? '',
+        this.personaForm.value.rut ?? '',
+        'Usuario', // tipo_usuario
+        this.personaForm.value.usuario ?? '',
+        this.personaForm.value.contrasena ?? '',
+        this.personaForm.value.contrasena_conf ?? '',
+        this.personaForm.value.email ?? '',
+        this.personaForm.value.patente ?? '',
+        this.personaForm.value.marca ?? '',
+        this.personaForm.value.modelo ?? '',
+        this.personaForm.value.color ?? '',
+        this.personaForm.value.tieneVehiculo ?? false
+      );
+      
+
+
+      //this.usuarioService.createUsuario(this.personaForm.value);
+      const result = await this.usuarioService.createUsuario(nuevoUsuario);
+      if (result) {
+        this.showAlert("Registro Exitoso");
+        this.personaForm.reset();
+        this.router.navigate(['/login']);
+      } else {
+        this.showAlert("El usuario ya existe");
+      }
+
+
       //console.log(this.personaForm.value);
       this.showAlert("Registro Exitoso")
       this.router.navigate(['/login']);
