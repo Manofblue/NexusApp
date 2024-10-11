@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, FormC
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/Usuario';
+import { Vehiculo } from 'src/app/models/Vehiculo';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -31,8 +32,8 @@ export class RegistroPage implements OnInit {
 
   personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
-    rut: new FormControl('',[Validators.required]),
-    usuario:new FormControl( '', [Validators.required, Validators.minLength(3)]),
+    rut: new FormControl('',[]),
+    usuario:new FormControl( '', [Validators.required]),
     contrasena:new FormControl( '', [Validators.required]),
     contrasena_conf:new FormControl( '', [Validators.required]),
     email: new FormControl('', [Validators.required,Validators.email]),
@@ -40,7 +41,8 @@ export class RegistroPage implements OnInit {
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
     color:new FormControl('', []),
-    tieneVehiculo: new FormControl(false) 
+    tieneVehiculo: new FormControl(false),
+    plazas:new FormControl( '', [])
 
   }, { validators: passwordMatchValidator() }); 
 
@@ -66,7 +68,7 @@ export class RegistroPage implements OnInit {
   usuarios:any[] = [];
 
   constructor(private fb: FormBuilder, private router: Router,private alertController: AlertController,private usuarioService: UsuarioService) {
-    this.personaForm.get("rut")?.setValidators([Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}"),this.validarRut()]);
+    //this.personaForm.get("rut")?.setValidators([Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}"),this.validarRut()]);
   
   }
   
@@ -82,22 +84,27 @@ export class RegistroPage implements OnInit {
       this.personaForm.get('marca')?.setValidators([Validators.required,Validators.minLength(3)]);
       this.personaForm.get('modelo')?.setValidators([Validators.required,Validators.minLength(3)]);
       this.personaForm.get('color')?.setValidators([Validators.required,Validators.minLength(3)]);
+      this.personaForm.get('plazas')?.setValidators([Validators.required]);
     } else {
       this.personaForm.get('patente')?.clearValidators();
       this.personaForm.get('marca')?.clearValidators();
       this.personaForm.get('modelo')?.clearValidators();
       this.personaForm.get('color')?.clearValidators();
+      this.personaForm.get('plazas')?.clearValidators();
     }
 
     this.personaForm.get('patente')?.updateValueAndValidity();
     this.personaForm.get('marca')?.updateValueAndValidity();
     this.personaForm.get('modelo')?.updateValueAndValidity();
     this.personaForm.get('color')?.updateValueAndValidity();
+    this.personaForm.get('plazas')?.updateValueAndValidity();
   }
 
   async registrar(): Promise<void> {
-
+   var mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;
     if (this.personaForm.valid) {
+       
+      
       const nuevoUsuario = new Usuario(
         this.personaForm.value.fecha_nacimiento ?? '',
         this.personaForm.value.rut ?? '',
@@ -105,30 +112,33 @@ export class RegistroPage implements OnInit {
         this.personaForm.value.usuario ?? '',
         this.personaForm.value.contrasena ?? '',
         this.personaForm.value.contrasena_conf ?? '',
-        this.personaForm.value.email ?? '',
-        this.personaForm.value.patente ?? '',
-        this.personaForm.value.marca ?? '',
-        this.personaForm.value.modelo ?? '',
-        this.personaForm.value.color ?? '',
-        this.personaForm.value.tieneVehiculo ?? false
+        this.personaForm.value.email ?? ''
       );
-      
 
+      if(mostrarFormulario){
+        const vehiculo =  new Vehiculo(
+          this.personaForm.value.patente ?? '',
+          this.personaForm.value.marca ?? '',
+          this.personaForm.value.modelo ?? '',
+          this.personaForm.value.color ?? '',
+          5,
+          this.personaForm.value.rut??''
+        );
+        if(vehiculo){
+          nuevoUsuario.setVehiculo(vehiculo);
+        }
+      }
 
       //this.usuarioService.createUsuario(this.personaForm.value);
       const result = await this.usuarioService.createUsuario(nuevoUsuario);
+
       if (result) {
         this.showAlert("Registro Exitoso");
         this.personaForm.reset();
         this.router.navigate(['/login']);
       } else {
-        this.showAlert("El usuario ya existe");
+        this.showAlert("Correo o rut existente");
       }
-
-
-      //console.log(this.personaForm.value);
-      this.showAlert("Registro Exitoso")
-      this.router.navigate(['/login']);
     } else {
       console.log('Formulario no válido');
     }

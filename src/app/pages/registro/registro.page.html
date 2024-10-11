@@ -79,6 +79,15 @@
               <ion-input formControlName="color" type="text" labelPlacement="stacked" label="Color del auto" placeholder="Ingrese color del vehiculo"></ion-input>
             </ion-item>
 
+            <ion-item>
+              <ion-icon name="people-outline" slot="end" color="primary"></ion-icon>
+              <ion-label>Capacidad (plazas)</ion-label>
+              <ion-select formControlName="plazas" label="Selecciona el número de plazas" interface="action-sheet">
+                <ion-select-option value="2">2</ion-select-option>
+                <ion-select-option value="4">4</ion-select-option>  
+              </ion-select>
+            </ion-item>
+
           </ion-card>
         </div>
 

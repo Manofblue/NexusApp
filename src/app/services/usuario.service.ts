@@ -33,48 +33,73 @@ export class UsuarioService {
 
   async init() {
     await this.storage.create();
-    let admin = new Usuario(
-      "1990-01-01",        // fecha_nacimiento
-      "12345678-9",       // rut
-      "admin",            // tipo_usuario
-      "admin",            // usuario
-      "123",              // contrasena
-      "123",              // contrasena_conf
-      "admin@gmail.com",  // email
-      "",                 // patente
-      "",                 // marca
-      "",                 // modelo
-      "",                 // color
-      false               // tieneVehiculo
-    );
-    await this.createUsuario(admin);
+    const usuariosRaw: any[] = await this.storage.get('usuarios') || [];
+    if (usuariosRaw.length === 0) {
+      const admin = new Usuario(
+        "1990-01-01", 
+        "12345678-9", 
+        "admin", 
+        "admin", 
+        "123", 
+        "123", 
+        "admin@gmail.com"
+      );
+      await this.createUsuario(admin);
+    }
   }
   
 
   //aquí vamos a crear toda nuestra lógica de programación
   //DAO:
-  public async createUsuario(usuario: Usuario): Promise<boolean> {
-    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
-    if (usuarios.find((usu) => usu.rut === usuario.rut) != undefined) {
-      return false;
+
+  private async crearUsuarios(): Promise<Usuario[]> {
+    const usuariosRaw: any[] = (await this.storage.get('usuarios')) || [];
+    return this.mapToUsuarios(usuariosRaw);
+}
+
+private mapToUsuarios(usuariosRaw: any[]): Usuario[] {
+    return usuariosRaw.map(usu => new Usuario(
+        usu.fecha_nacimiento,
+        usu.rut,
+        usu.tipo_usuario,
+        usu.usuario,
+        usu.contrasena,
+        usu.contrasena_conf,
+        usu.email,
+        usu.vehiculo
+    ));
+}
+
+public async createUsuario(usuario: Usuario): Promise<boolean> {
+    const usuarios: Usuario[] = await this.crearUsuarios();
+
+    if (usuarios.find((usu) => usu.getRut() === usuario.getRut()  || usu.getEmail()==usuario.getEmail()) != undefined) {
+        return false;
     }
+
     usuarios.push(usuario);
     await this.storage.set('usuarios', usuarios);
     return true;
-  }
+}
+
+
 
   public async getUsuario(rut: string): Promise<Usuario | undefined> {
-    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
-    return usuarios.find((usu) => usu.rut === rut);
+    //const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    const usuarios: Usuario[] = await this.crearUsuarios();
+
+    return usuarios.find((usu) => usu.getRut() === rut);
   }
 
   public async getUsuarios(): Promise<Usuario[]> {
-    return (await this.storage.get('usuarios')) || [];
+    //return (await this.storage.get('usuarios')) || [];
+    return this.crearUsuarios();
   }
 
   public async updateUsuario(rut: string, nuevoUsuario: Usuario): Promise<boolean> {
-    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
-    const indice = usuarios.findIndex((usu) => usu.rut === rut);
+    //const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    const usuarios: Usuario[] = await this.crearUsuarios();
+    const indice = usuarios.findIndex((usu) => usu.getRut() === rut);
     if (indice === -1) {
       return false;
     }
@@ -85,8 +110,9 @@ export class UsuarioService {
   }
 
   public async deleteUsuario(rut: string): Promise<boolean> {
-    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
-    const indice = usuarios.findIndex((usu) => usu.rut === rut);
+    //const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    const usuarios: Usuario[] = await this.crearUsuarios();
+    const indice = usuarios.findIndex((usu) => usu.getRut() === rut);
     if (indice === -1) {
       return false;
     }
@@ -96,13 +122,14 @@ export class UsuarioService {
   }
 
   public async login(correo: string, contrasena: string): Promise<Boolean> {
-    const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    //const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
+    const usuarios: Usuario[] = await this.crearUsuarios();
     //return usuarios.find((elemento) => elemento.email === correo && elemento.contrasena === contrasena);
-    const usuario = usuarios.find((elemento) => elemento.email === correo && elemento.contrasena === contrasena);
+    const usuario = usuarios.find((elemento) => elemento.getEmail() === correo && elemento.getContrasena() === contrasena);
     if (usuario) {
       localStorage.clear();
-      localStorage.setItem('rol', usuario.tipo_usuario); 
-      localStorage.setItem('idUsuario', usuario.rut); 
+      localStorage.setItem('rol', usuario.getTipoUsuario()); 
+      localStorage.setItem('idUsuario', usuario.getRut()); 
       return true;
     }
     return false;
@@ -112,7 +139,7 @@ export class UsuarioService {
 
   public async recuperarUsuario(correo: string): Promise<Usuario | undefined> {
     const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
-    return usuarios.find((elemento) => elemento.email === correo);
+    return usuarios.find((elemento) => elemento.getEmail() === correo);
   }
 
 

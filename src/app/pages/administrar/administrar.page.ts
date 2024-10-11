@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/Usuario';
+import { Vehiculo } from 'src/app/models/Vehiculo';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -68,6 +69,7 @@ export class AdministrarPage implements OnInit {
 
   async registrar(){
     if (this.personaForm.valid) {
+  
       const nuevoUsuario = new Usuario(
         this.personaForm.value.fecha_nacimiento ?? '',
         this.personaForm.value.rut ?? '',
@@ -75,13 +77,24 @@ export class AdministrarPage implements OnInit {
         this.personaForm.value.usuario ?? '',
         this.personaForm.value.contrasena ?? '',
         this.personaForm.value.contrasena_conf ?? '',
-        this.personaForm.value.email ?? '',
-        this.personaForm.value.patente ?? '',
-        this.personaForm.value.marca ?? '',
-        this.personaForm.value.modelo ?? '',
-        this.personaForm.value.color ?? '',
-        this.personaForm.value.tieneVehiculo ?? false
+        this.personaForm.value.email ?? ''
       );
+
+      var tieneVehiculo = this.personaForm.get('tieneVehiculo')?.value;const mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;
+      if(tieneVehiculo){
+        const vehiculo =  new Vehiculo(
+          this.personaForm.value.patente ?? '',
+          this.personaForm.value.marca ?? '',
+          this.personaForm.value.modelo ?? '',
+          this.personaForm.value.color ?? '',
+          5,
+          this.personaForm.value.rut??''
+        );
+        if(vehiculo){
+          nuevoUsuario.setVehiculo(vehiculo);
+        }
+      }
+
       
       const result = await this.usuarioService.createUsuario(nuevoUsuario);
       if (result) {
@@ -108,40 +121,67 @@ export class AdministrarPage implements OnInit {
   }
 
   public cargarUsuario(usuario: Usuario): void {
+
     this.personaForm.patchValue({
-      fecha_nacimiento: usuario.fecha_nacimiento,
-      rut: usuario.rut,
-      usuario: usuario.usuario,
-      contrasena: usuario.contrasena,
-      contrasena_conf: usuario.contrasena_conf,
-      email: usuario.email,
-      patente: usuario.patente,
-      marca: usuario.marca,
-      modelo: usuario.modelo,
-      color: usuario.color,
-      tieneVehiculo: usuario.tieneVehiculo
+      fecha_nacimiento: usuario.getFechaNacimiento(),
+      rut: usuario.getRut(),
+      usuario: usuario.getUsuario(),
+      contrasena: usuario.getContrasena(),
+      contrasena_conf: usuario.getContrasena(),
+      email: usuario.getEmail()
     });
+
+    if(usuario.tieneVehiculo()){
+
+      this.personaForm.get('tieneVehiculo')?.setValue(true);
+
+      this.personaForm.patchValue({
+        fecha_nacimiento: usuario.getFechaNacimiento(),
+        rut: usuario.getRut(),
+        usuario: usuario.getUsuario(),
+        contrasena: usuario.getContrasena(),
+        contrasena_conf: usuario.getContrasena(),
+        email: usuario.getEmail(),
+        patente: usuario.getVehiculo()?.patente,
+        marca: usuario.getVehiculo()?.marca,
+        modelo: usuario.getVehiculo()?.modelo,
+        color: usuario.getVehiculo()?.color
+      });
+    };
   }
   
 
   async modificar(){
     var rut_buscar: string = this.personaForm.controls.rut.value || "";
     if (this.personaForm.valid) {
+
+
       const nuevoUsuario = new Usuario(
-      this.personaForm.value.rut ?? '',
-      'Usuario',
-      this.personaForm.value.fecha_nacimiento ?? '',
-      this.personaForm.value.usuario ?? '',
-      this.personaForm.value.contrasena ?? '',
-      this.personaForm.value.contrasena_conf ?? '',
-      this.personaForm.value.email ?? '',
-      this.personaForm.value.patente ?? '',
-      this.personaForm.value.marca ?? '',
-      this.personaForm.value.modelo ?? '',
-      this.personaForm.value.color ?? '',
-      this.personaForm.value.tieneVehiculo ?? false
-    );
-    
+        this.personaForm.value.fecha_nacimiento ?? '',
+        this.personaForm.value.rut ?? '',
+        'Usuario', // tipo_usuario
+        this.personaForm.value.usuario ?? '',
+        this.personaForm.value.contrasena ?? '',
+        this.personaForm.value.contrasena_conf ?? '',
+        this.personaForm.value.email ?? ''
+      );
+
+      var tieneVehiculo = this.personaForm.get('tieneVehiculo')?.value;const mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;
+      
+      if(tieneVehiculo){
+        const vehiculo =  new Vehiculo(
+          this.personaForm.value.patente ?? '',
+          this.personaForm.value.marca ?? '',
+          this.personaForm.value.modelo ?? '',
+          this.personaForm.value.color ?? '',
+          5,
+          this.personaForm.value.rut??''
+        );
+        if(vehiculo){
+          nuevoUsuario.setVehiculo(vehiculo);
+        }
+      }
+
     if(await this.usuarioService.updateUsuario( rut_buscar , nuevoUsuario)){
       this.editar=false;
       this.showAlert("USUARIO MODIFICADO CON ÉXITO!")

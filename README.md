@@ -27,3 +27,9 @@ Este proyecto es una aplicación móvil de reserva de viajes inspirada en plataf
 - [ ] Validar Viaje "Cupos o asientos".
 - [ ] Mejorar las validaciones del registro.
 
+
+## Bugs
+
+- [ ] editar no contempla el auto.
+- [ ] Perfil no muestra los detalles del auto, solo si tiene auto.
+- [ ] dos autos con pantentes iguales?.

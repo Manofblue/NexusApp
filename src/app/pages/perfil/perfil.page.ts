@@ -24,6 +24,7 @@ export class PerfilPage implements OnInit {
     if (rutCokie) {
       this.rut = rutCokie; 
       const datosUsuario = await this.usuarioService.getUsuario(rutCokie);
+      
       if (datosUsuario) {
         this.usuario = datosUsuario; 
       } else {
