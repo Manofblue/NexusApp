@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  
+
   <div class="circleBase type1"></div> 
   <div class="circleBase type2 circle2"></div>
   <div class="circleBase type2 circle3"></div> 
@@ -9,24 +9,32 @@
     <p><img src="../../assets/imgs/nexxus.png" alt="Logo" class="logo"></p>
   </ion-label>
 
-  <!-- Recuadro para las utilidades 
-  <div class="utilidades-recuadro">
-    <h3>¡Bienvenido a nuestra aplicación! Nuestro objetivo es asegurarte un viaje seguro y saludable hacia tu hogar, especialmente en estos tiempos de pandemia.</h3>
-    <ul>
-      <img src="../../assets/imgs/duoc.jpg" alt="Descripción de la imagen" class="mi-imagen">
-    </ul>
-    <h2>Utilidades de nuestra app!</h2>
-    <ul>
-      <li>-Planificación de Viajes</li>
-      <li>-Personalización del Perfil</li>
-      <li>-Seguridad de Cuentas</li>
-    </ul>
-  </div>-->
+  <h2 class="titulo">Planifica tu Viaje</h2>
 
-  <div id="map_html"></div>
+  <!-- Campo para el destino -->
+  <ion-item>
+    <ion-label position="floating">Destino</ion-label>
+    <ion-input [(ngModel)]="destino" placeholder="Ej. Playa, Montañas..." readonly></ion-input>
+  </ion-item>
+
+
+  <ion-item>
+    <ion-label position="floating">Distancia (KM)</ion-label>
+    <ion-input type="number" [(ngModel)]="distancia_metros" readonly></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Tiempo (Minutos)</ion-label>
+    <ion-input type="number" [(ngModel)]="tiempo_segundos" readonly></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Coste</ion-label>
+    <ion-input type="number" [(ngModel)]="coste"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="guardarViaje()">Guardar Viaje</ion-button>
+
+  <div id="map_html" style="height: 300px; margin-top: 20px;"></div>
 
 </ion-content>
-
-
-    
-
