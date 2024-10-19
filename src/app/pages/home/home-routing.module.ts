@@ -24,9 +24,14 @@ const routes: Routes = [
         loadChildren: () => import('../viajes/viajes.module').then(m => m.ViajesPageModule)
       },
       {
+        path: 'administrarViajes',
+        loadChildren: () => import('../administrar-viajes/administrar-viajes.module').then(m => m.AdministrarViajesPageModule)
+      },
+      {
         path: 'inicio',
         loadChildren: () => import('../inicio/inicio.module').then(m => m.InicioPageModule)
       },
+    
       {
         path: '',
         redirectTo: 'inicio',  // Redirige a inicio si no hay subruta especificada

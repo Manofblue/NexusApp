@@ -37,11 +37,11 @@ export class InicioPage implements OnInit {
   tiempo_segundos: number = 0; // Tiempo en segundos
   descripcion:String="";
   horaSalida:Date | undefined;
-   origen: string="";
-   destino: string="";
-   coste: number=0;
-   duracion: number=0;
-   capacidad:number=0;
+  origen: string="";
+  destino: string="";
+  coste: number=0;
+  duracion: number=0;
+  capacidad:number=0;
 
 
 
@@ -182,18 +182,19 @@ private obtenerDireccion(lat: number, lon: number): void {
     };*/
 
     var rutCokie = localStorage.getItem('idUsuario');
-    this.validarHoraSalida();
     const esValido = await this.validarHoraSalida();
     if (!esValido) {
       
-      this.mostrarMensaje("la fecha no puede ser antes que hoy");
+      this.mostrarMensaje("la hora de salida de salida de ser despues de ahora ");
 
     }else{
 
     if(this.latDest && this.longDest && this.originLat && this.originLon && rutCokie &&this.horaSalida)
     {
-  
-      var viaje=new Viaje(this.destino,this.coste,this.tiempo_segundos,EstadoViaje.Pendiente,this.capacidad,this.latDest,this.longDest,this.originLat,this.originLon,rutCokie,this.horaSalida);
+      var randomInt =
+        Math.floor(Math.random() * (2000000 - 1 + 1)) + 1;
+
+      var viaje=new Viaje(this.destino,this.coste,this.tiempo_segundos,EstadoViaje.Pendiente,this.capacidad,this.latDest,this.longDest,this.originLat,this.originLon,rutCokie,this.horaSalida,randomInt);
 
       console.log('Viaje guardado:', viaje);
       console.log(this.horaSalida);

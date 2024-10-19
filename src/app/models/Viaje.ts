@@ -1,5 +1,4 @@
 import { EstadoViaje } from './EstadoViaje';
-import { Vehiculo } from './Vehiculo';
 
 export class Viaje {
     private destino: string;
@@ -14,8 +13,8 @@ export class Viaje {
     private duracion: number;
     private estado: EstadoViaje;
     private capacidad: number; // Capacidad del viaje (número de plazas disponibles)
-    private horaSalida:Date;
-    private pasajeros: String[] ;
+    private horaSalida: Date;
+    private pasajeros: String[];
 
     constructor(
         destino: string,
@@ -28,7 +27,8 @@ export class Viaje {
         latOrg: number,
         longOrg: number,
         rutCreador: string,
-        horaSalida:Date
+        horaSalida: Date,
+        idViaje: number
     ) {
         this.destino = destino;
         this.coste = coste;
@@ -40,17 +40,17 @@ export class Viaje {
         this.latOrg = latOrg;
         this.longOrg = longOrg;
         this.rutCreador = rutCreador;
-        this.idViaje =  ++Viaje.contador;
-        this.horaSalida=horaSalida;
-        this.pasajeros=[];
+        this.idViaje = idViaje;
+        this.horaSalida = horaSalida;
+        this.pasajeros = []; // Cambiado a un array vacío
     }
 
     // Método para verificar si la capacidad es adecuada
     public esCapacidadAdecuada(numPasajeros: number): boolean {
         return numPasajeros <= this.getCapacidad();
     }
-    public agregarPasajero(rut:String):void{
-        
+
+    public agregarPasajero(rut: String): void {
         this.pasajeros.push(rut);
         console.log(this.pasajeros);
     }
@@ -97,16 +97,17 @@ export class Viaje {
     }
 
     public getCapacidad(): number {
-        return this.capacidad-this.pasajeros.length;
+        return this.capacidad - this.pasajeros.length; // Capacidad restante
     }
-    public getHoraSalida():Date{
+
+    public getHoraSalida(): Date {
         return this.horaSalida;
     }
 
-    public getPasajeros(){
-
+    public getPasajeros(): String[] {
         return this.pasajeros;
     }
+
     // Métodos de modificación (setters)
     public setDestino(destino: string): void {
         this.destino = destino;
@@ -152,7 +153,14 @@ export class Viaje {
         this.capacidad = capacidad;
     }
 
+    public setHoraSalida(horaSalida: Date): void {
+        this.horaSalida = horaSalida;
+    }
+    public setPasajeros(pasajeros:String[]) {
+        this.pasajeros=pasajeros;
+    }
 
+    // Método toString para depuración
     public toString(): string {
         return `Viaje { 
             ID: ${this.idViaje}, 
@@ -162,8 +170,8 @@ export class Viaje {
             Duración: ${this.duracion} min, 
             Estado: ${this.estado}, 
             Capacidad: ${this.capacidad},
-            horaSalida:${this.horaSalida},
-            pasajeros: ${this.pasajeros} 
+            horaSalida: ${this.horaSalida},
+            pasajeros: ${this.pasajeros.join(', ')} 
         }`;
     }
 }

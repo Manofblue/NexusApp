@@ -31,7 +31,10 @@ const routes: Routes = [
     path: 'viajes',
     loadChildren: () => import('./pages/viajes/viajes.module').then( m => m.ViajesPageModule)
   },
-
+  {
+    path: 'administrar-viajes',
+    loadChildren: () => import('./pages/administrar-viajes/administrar-viajes.module').then( m => m.AdministrarViajesPageModule)
+  },
   {
     path: '**',
     loadChildren: () => import('./pages/not-found404/not-found404.module').then( m => m.NotFound404PageModule)

@@ -20,27 +20,33 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
   }
 
   private mapToViajes(viajesRaw: any[]): Viaje[] {
-    return viajesRaw.map(v => new Viaje(
-      v.destino,
-      v.coste,
-      v.duracion,
-      v.estado,
-      v.capacidad,
-      v.latDest,
-      v.longDest,
-      v.latOrg,
-      v.longOrg,
-      v.rutCreador,
-      v.horaSalida
-    ));
+    var viaje:Viaje;
+    return viajesRaw.map(v => {
+      const viaje = new Viaje(
+          v.destino,
+          v.coste,
+          v.duracion,
+          v.estado,
+          v.capacidad,
+          v.latDest,
+          v.longDest,
+          v.latOrg,
+          v.longOrg,
+          v.rutCreador,
+          v.horaSalida,
+          v.idViaje
+      );
+      viaje.setPasajeros( v.pasajeros || []) ; 
+      return viaje;
+  });
   }
 
   public async createViaje(viaje: Viaje): Promise<boolean> {
     const viajes: Viaje[] = await this.getAllViajes();
 
-    /*if (viajes.find(v => v.getIdViaje() === viaje.getIdViaje()) !== undefined) {
+    if (viajes.find(v => v.getIdViaje() === viaje.getIdViaje()) !== undefined) {
       return false; // Viaje ya existe
-    }*/
+    }
 
     viajes.push(viaje);
     await this.storage.set('viajes', viajes);
@@ -52,11 +58,15 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
     return viajes.find(v => v.getIdViaje() === id) || null;
   }
 
+  public async getAllViajes(): Promise<Viaje[]> {
+    const viajesRaw: any[] = await this.storage.get('viajes') || [];
+    return this.mapToViajes(viajesRaw);
+  }
   public async updateViaje(id: number, viaje: Viaje): Promise<boolean> {
 
     const viajes: Viaje[] = await this.getAllViajes();
     console.log(viajes);
-    const index = viajes.findIndex(v => v.getIdViaje() == id+1);
+    const index = viajes.findIndex(v => v.getIdViaje() == id);
 
     if (index === -1) {
       console.log("viaje no actualizado");
@@ -64,7 +74,7 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
     }
 
     viajes[index] = viaje;
-
+    console.log("viaje  actualizado");
     await this.storage.set('viajes', viajes);
     return true; // Indica que la operación fue exitosa
   }
@@ -82,10 +92,7 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
     return true; // Indica que la operación fue exitosa
   }
 
-  public async getAllViajes(): Promise<Viaje[]> {
-    const viajesRaw: any[] = await this.storage.get('viajes') || [];
-    return this.mapToViajes(viajesRaw);
-  }
+ 
 
   public async agregarPasajero(rut:String,viaje:Viaje):Promise<void>{
 

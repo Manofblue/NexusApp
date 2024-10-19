@@ -26,6 +26,11 @@
         <ion-label>Administrar</ion-label>
       </ion-tab-button>
 
+      <ion-tab-button *ngIf="isAdmin" tab="administrarViajes">
+        <ion-icon name="key-sharp"></ion-icon>
+        <ion-label>Administrar viajes</ion-label>
+      </ion-tab-button>
+
       <ion-tab-button tab="reservas">
         <ion-icon name="calendar-number-sharp"></ion-icon>
         <ion-label>Reservas</ion-label>
@@ -41,10 +46,6 @@
         <ion-label>Perfil</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button routerLink="/">
-        <ion-icon name="close-circle"></ion-icon>
-        <ion-label>Cerrar Sesion</ion-label>
-      </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
 </ion-content>
