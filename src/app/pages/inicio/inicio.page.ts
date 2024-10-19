@@ -13,7 +13,9 @@ import { ViajeService } from 'src/app/services/viaje.service';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
-  
+ 
+
+
   // Coordenadas predeterminadas (latitud y longitud) para centrar el mapa
   private defaultLat: number = -33.608552227594245; 
   private defaultLon: number = -70.58039819211703;
@@ -34,11 +36,15 @@ export class InicioPage implements OnInit {
   distancia_metros: number = 0; // Distancia en metros
   tiempo_segundos: number = 0; // Tiempo en segundos
   descripcion:String="";
-
+  horaSalida:Date | undefined;
    origen: string="";
    destino: string="";
    coste: number=0;
    duracion: number=0;
+   capacidad:number=0;
+
+
+
 
   constructor(private viajeServicio:ViajeService,private alertController: AlertController) { }
 
@@ -142,6 +148,7 @@ export class InicioPage implements OnInit {
       }
     }
   }
+  
 
   // Función para obtener la dirección a partir de las coordenadas
 private obtenerDireccion(lat: number, lon: number): void {
@@ -175,31 +182,58 @@ private obtenerDireccion(lat: number, lon: number): void {
     };*/
 
     var rutCokie = localStorage.getItem('idUsuario');
+    this.validarHoraSalida();
+    const esValido = await this.validarHoraSalida();
+    if (!esValido) {
+      
+      this.mostrarMensaje("la fecha no puede ser antes que hoy");
 
-    if(this.latDest && this.longDest && this.originLat && this.originLon && rutCokie)
+    }else{
+
+    if(this.latDest && this.longDest && this.originLat && this.originLon && rutCokie &&this.horaSalida)
     {
-    
-      var viaje=new Viaje(this.destino,this.coste,this.tiempo_segundos,EstadoViaje.EnCurso,4,this.latDest,this.longDest,this.originLat,this.originLon,rutCokie,Math.random());
+  
+      var viaje=new Viaje(this.destino,this.coste,this.tiempo_segundos,EstadoViaje.Pendiente,this.capacidad,this.latDest,this.longDest,this.originLat,this.originLon,rutCokie,this.horaSalida);
 
       console.log('Viaje guardado:', viaje);
+      console.log(this.horaSalida);
       
       this.viajeServicio.createViaje(viaje);
-      const alert = await this.alertController.create({
-        animated: true,
-        backdropDismiss: true,
-        message: 'felicidades creaste un viaje '+viaje.toString(),
-        buttons: [
-          {
-            text: 'Cerrar',
-            role: 'cancel',
-          },
-        ],
-      });
-      await alert.present();
-
+      this.mostrarMensaje('felicidades creaste un viaje '+viaje.toString());
     }
-    
   }
 
+  }
+
+  async validarHoraSalida():Promise<Boolean>  {
+    const fechaActual = new Date();
+    // Validar que la hora de salida no sea antes de ayer
+    const ayer = new Date();
+    ayer.setDate(fechaActual.getDate() - 1);
+    if(this.horaSalida){
+      if (this.horaSalida < ayer) {
+        return false;
+      }
+      return true;
+    }return false;
+
+  
+  }
+
+  async mostrarMensaje(mensaje:String) {
+    const alert = await this.alertController.create({
+      animated: true,
+      backdropDismiss: true,
+      message: mensaje+'',
+      buttons: [
+        {
+          text: 'Cerrar',
+          role: 'cancel',
+        },
+      ],
+    });
+    await alert.present();
+
+  }
 
 }

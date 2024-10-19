@@ -31,16 +31,16 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
       v.latOrg,
       v.longOrg,
       v.rutCreador,
-      v.idViaje
+      v.horaSalida
     ));
   }
 
   public async createViaje(viaje: Viaje): Promise<boolean> {
     const viajes: Viaje[] = await this.getAllViajes();
 
-    if (viajes.find(v => v.getIdViaje() === viaje.getIdViaje()) !== undefined) {
+    /*if (viajes.find(v => v.getIdViaje() === viaje.getIdViaje()) !== undefined) {
       return false; // Viaje ya existe
-    }
+    }*/
 
     viajes.push(viaje);
     await this.storage.set('viajes', viajes);
@@ -53,14 +53,18 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
   }
 
   public async updateViaje(id: number, viaje: Viaje): Promise<boolean> {
+
     const viajes: Viaje[] = await this.getAllViajes();
-    const index = viajes.findIndex(v => v.getIdViaje() === id);
+    console.log(viajes);
+    const index = viajes.findIndex(v => v.getIdViaje() == id+1);
 
     if (index === -1) {
+      console.log("viaje no actualizado");
       return false; // Viaje no encontrado
     }
 
     viajes[index] = viaje;
+
     await this.storage.set('viajes', viajes);
     return true; // Indica que la operación fue exitosa
   }
@@ -81,5 +85,16 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
   public async getAllViajes(): Promise<Viaje[]> {
     const viajesRaw: any[] = await this.storage.get('viajes') || [];
     return this.mapToViajes(viajesRaw);
+  }
+
+  public async agregarPasajero(rut:String,viaje:Viaje):Promise<void>{
+
+    const viajes: Viaje[] = await this.getAllViajes();
+    const index = viajes.findIndex(v => v==viaje);
+    viaje.agregarPasajero(rut);    
+
+    viajes[index] = viaje;
+    await this.storage.set('viajes', viajes);
+
   }
 }

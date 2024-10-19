@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Listado de Viajes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <div *ngIf="mapVisible" id="mapaVista" style="height: 300px; margin-top: 20px;"></div>
+    <ion-item *ngFor="let viaje of viajes">
+      <ion-label>
+        <h2>{{ viaje.getDestino() }}</h2>
+        <p>Tiempo: {{ viaje.getDuracion() }} min</p>
+        <p>Coste: ${{ viaje.getCoste() }} </p>
+        <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
+        <p>Capacidad: {{ viaje.getCapacidad() }} personas</p>
+        <p>Capacidad: {{ viaje.getPasajeros() }} personas</p>
+      </ion-label>
+      <ion-button (click)="verDetalle(viaje)" slot="end">Ver Ruta</ion-button>
+      <ion-button (click)="tomarViaje(viaje)" slot="end" color="primary">Tomar Viaje</ion-button>
+    
+    </ion-item>
+  </ion-list>
+</ion-content>
+

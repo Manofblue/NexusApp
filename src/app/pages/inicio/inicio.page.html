@@ -17,7 +17,6 @@
     <ion-input [(ngModel)]="destino" placeholder="Ej. Playa, Montañas..." readonly></ion-input>
   </ion-item>
 
-
   <ion-item>
     <ion-label position="floating">Distancia (KM)</ion-label>
     <ion-input type="number" [(ngModel)]="distancia_metros" readonly></ion-input>
@@ -32,6 +31,26 @@
     <ion-label position="floating">Coste</ion-label>
     <ion-input type="number" [(ngModel)]="coste"></ion-input>
   </ion-item>
+
+  <!-- Campo para la hora de salida -->
+  <ion-item>
+    <ion-label position="floating">Hora de Salida</ion-label>
+    <br>
+    <ion-datetime [(ngModel)]="horaSalida" displayFormat="HH:mm" placeholder="Selecciona la hora" presentation="time"></ion-datetime>
+  </ion-item>
+
+  <!-- Campo para la capacidad con límite de 4 -->
+  <!-- Campo para la capacidad usando ion-select -->
+  <ion-item>
+    <ion-label>Capacidad</ion-label>
+    <ion-select [(ngModel)]="capacidad" placeholder="Selecciona capacidad">
+      <ion-select-option value="1">1</ion-select-option>
+      <ion-select-option value="2">2</ion-select-option>
+      <ion-select-option value="3">3</ion-select-option>
+      <ion-select-option value="4">4</ion-select-option>
+    </ion-select>
+  </ion-item>
+
 
   <ion-button expand="full" (click)="guardarViaje()">Guardar Viaje</ion-button>
 

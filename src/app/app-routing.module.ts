@@ -24,13 +24,19 @@ const routes: Routes = [
     loadChildren: () => import('./pages/recuperar-contrasena/recuperar-contrasena.module').then( m => m.RecuperarContrasenaPageModule)
   },
   {
-    path: '**',
-    loadChildren: () => import('./pages/not-found404/not-found404.module').then( m => m.NotFound404PageModule)
-  },
-  {
     path: 'inicio',
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
   },
+  {
+    path: 'viajes',
+    loadChildren: () => import('./pages/viajes/viajes.module').then( m => m.ViajesPageModule)
+  },
+
+  {
+    path: '**',
+    loadChildren: () => import('./pages/not-found404/not-found404.module').then( m => m.NotFound404PageModule)
+  },
+  
 
   
 

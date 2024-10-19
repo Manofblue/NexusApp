@@ -3,6 +3,7 @@ import { Vehiculo } from './Vehiculo';
 
 export class Viaje {
     private destino: string;
+    private static contador: number = 0; // Contador estático para los IDs
     private latDest: number;
     private longDest: number;
     private latOrg: number;
@@ -13,6 +14,8 @@ export class Viaje {
     private duracion: number;
     private estado: EstadoViaje;
     private capacidad: number; // Capacidad del viaje (número de plazas disponibles)
+    private horaSalida:Date;
+    private pasajeros: String[] ;
 
     constructor(
         destino: string,
@@ -25,7 +28,7 @@ export class Viaje {
         latOrg: number,
         longOrg: number,
         rutCreador: string,
-        idViaje: number
+        horaSalida:Date
     ) {
         this.destino = destino;
         this.coste = coste;
@@ -37,12 +40,19 @@ export class Viaje {
         this.latOrg = latOrg;
         this.longOrg = longOrg;
         this.rutCreador = rutCreador;
-        this.idViaje = idViaje;
+        this.idViaje =  ++Viaje.contador;
+        this.horaSalida=horaSalida;
+        this.pasajeros=[];
     }
 
     // Método para verificar si la capacidad es adecuada
     public esCapacidadAdecuada(numPasajeros: number): boolean {
-        return numPasajeros <= this.capacidad;
+        return numPasajeros <= this.getCapacidad();
+    }
+    public agregarPasajero(rut:String):void{
+        
+        this.pasajeros.push(rut);
+        console.log(this.pasajeros);
     }
 
     // Métodos de acceso (getters)
@@ -87,9 +97,16 @@ export class Viaje {
     }
 
     public getCapacidad(): number {
-        return this.capacidad;
+        return this.capacidad-this.pasajeros.length;
+    }
+    public getHoraSalida():Date{
+        return this.horaSalida;
     }
 
+    public getPasajeros(){
+
+        return this.pasajeros;
+    }
     // Métodos de modificación (setters)
     public setDestino(destino: string): void {
         this.destino = destino;
@@ -135,6 +152,7 @@ export class Viaje {
         this.capacidad = capacidad;
     }
 
+
     public toString(): string {
         return `Viaje { 
             ID: ${this.idViaje}, 
@@ -143,7 +161,9 @@ export class Viaje {
             Coste: ${this.coste}, 
             Duración: ${this.duracion} min, 
             Estado: ${this.estado}, 
-            Capacidad: ${this.capacidad}
+            Capacidad: ${this.capacidad},
+            horaSalida:${this.horaSalida},
+            pasajeros: ${this.pasajeros} 
         }`;
     }
 }

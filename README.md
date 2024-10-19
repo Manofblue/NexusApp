@@ -20,7 +20,7 @@ Este proyecto es una aplicación móvil de reserva de viajes inspirada en plataf
 
 ## Por Hacer
 
-- [+] Crear viaje.
+- [+-] Crear viaje.
 - [ ] Tomar Viaje.
 - [ ] Visualizar mapa.
 - [ ] Administrar Viaje
@@ -35,3 +35,4 @@ Este proyecto es una aplicación móvil de reserva de viajes inspirada en plataf
 - [ ] Perfil no muestra los detalles del auto, solo si tiene auto.
 - [ ] dos autos con pantentes iguales?.
 - [ ] crear viaje solo con auto.
+- [ ] pasajero no se inserta al viaje, y este no se actualiza, osea no persiste con los cambios.

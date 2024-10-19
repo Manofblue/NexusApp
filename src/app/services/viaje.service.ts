@@ -32,4 +32,7 @@ export class ViajeService {
   async getAllViajes(): Promise<Viaje[]> {
     return await this.viajeRepository.getAllViajes();
   }
+  public async agregarPasajero(rut:String,viaje:Viaje):Promise<void>{
+    this.viajeRepository.agregarPasajero(rut,viaje);
+  }
 }
