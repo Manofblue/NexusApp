@@ -12,10 +12,6 @@ const routes: Routes = [
         loadChildren: () => import('../reservas/reservas.module').then(m => m.ReservasPageModule)
       },
       {
-        path: 'administrar',
-        loadChildren: () => import('../administrar/administrar.module').then(m => m.AdministrarPageModule)
-      },
-      {
         path: 'perfil',
         loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule)
       },
@@ -24,8 +20,8 @@ const routes: Routes = [
         loadChildren: () => import('../viajes/viajes.module').then(m => m.ViajesPageModule)
       },
       {
-        path: 'administrarViajes',
-        loadChildren: () => import('../administrar-viajes/administrar-viajes.module').then(m => m.AdministrarViajesPageModule)
+        path: 'menu-admin',
+        loadChildren: () => import('../menu-admin/menu-admin.module').then(m => m.MenuAdminPageModule)
       },
       {
         path: 'inicio',

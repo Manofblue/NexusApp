@@ -28,6 +28,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
   },
   {
+    path: 'menu-admin',
+    loadChildren: () => import('./pages/menu-admin/menu-admin.module').then( m => m.MenuAdminPageModule)
+  },
+  {
+    path: 'administrar',
+    loadChildren: () => import('./pages/administrar/administrar.module').then( m => m.AdministrarPageModule)
+  },
+  {
     path: 'viajes',
     loadChildren: () => import('./pages/viajes/viajes.module').then( m => m.ViajesPageModule)
   },
@@ -39,10 +47,10 @@ const routes: Routes = [
     path: '**',
     loadChildren: () => import('./pages/not-found404/not-found404.module').then( m => m.NotFound404PageModule)
   },
-  
 
   
 
+  
 ];
 
 @NgModule({

@@ -108,8 +108,12 @@ export class AdministrarViajesPage implements OnInit {
   }
   
 
-  eliminarViaje(idViaje:number){
-
+  async eliminarViaje(idViaje: number) {
+    const eliminado = await this.viajeService.deleteViaje(idViaje);
+    if (eliminado) {
+      this.viajes = await this.viajeService.getAllViajes(); 
+    } else {
+    }
   }
 
   modificar(idViaje:number){
@@ -120,6 +124,8 @@ export class AdministrarViajesPage implements OnInit {
     }
 
   }
+
+  
   
 
 }
