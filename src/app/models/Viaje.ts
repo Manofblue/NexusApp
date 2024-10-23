@@ -108,6 +108,39 @@ export class Viaje {
         return this.pasajeros;
     }
 
+    /**
+     * tienePajaro
+     */
+    public tienePasejo(rut: String):boolean {
+        
+       //var respuesta=this.pasajeros.filter((psj)=>psj==rut&&this.estado==EstadoViaje.Pendiente);
+
+        for (let index = 0; index < this.pasajeros.length; index++) {
+            if(this.pasajeros[index]==rut&&this.estado==EstadoViaje.Pendiente){
+                return true;
+            }
+            
+        }
+
+        return false;
+    }
+
+    /**
+     * eliminarPasajero
+     */
+    public eliminarPasajero(rut: String) {
+    
+       var idx= this.pasajeros.findIndex((psj)=>psj==rut);
+
+        /*for (let index = 0; index < this.pasajeros.length; index++) {
+            if(this.pasajeros[index]==rut){
+                this.pasajeros[index]==null;
+            } 
+        }*/
+       
+        this.pasajeros.splice(idx, 1);
+    }
+
     // Métodos de modificación (setters)
     public setDestino(destino: string): void {
         this.destino = destino;

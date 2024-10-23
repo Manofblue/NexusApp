@@ -5,6 +5,7 @@ import * as G from 'leaflet-control-geocoder';
 import 'leaflet-routing-machine';
 import { EstadoViaje } from 'src/app/models/EstadoViaje';
 import { Viaje } from 'src/app/models/Viaje';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { ViajeService } from 'src/app/services/viaje.service';
 
 @Component({
@@ -46,7 +47,7 @@ export class InicioPage implements OnInit {
 
 
 
-  constructor(private viajeServicio:ViajeService,private alertController: AlertController) { }
+  constructor(private viajeServicio:ViajeService,private alertController: AlertController,private usuarioService:UsuarioService) { }
 
   ngOnInit() {
     this.initMap(); // Inicializa el mapa al cargar el componente
@@ -181,13 +182,31 @@ private obtenerDireccion(lat: number, lon: number): void {
       tiempo_segundos: this.tiempo_segundos
     };*/
 
+  
     var rutCokie = localStorage.getItem('idUsuario');
+    if(rutCokie){
+
+      var usuario= await this.usuarioService.getUsuario(rutCokie);
+      if(!usuario?.tieneVehiculo()){
+         
+      this.mostrarMensaje("No tiene vehiculo, no puede crear un viaje");
+        return;
+      }
+
+    }
+
     const esValido = await this.validarHoraSalida();
+    
     if (!esValido) {
       
       this.mostrarMensaje("la hora de salida de salida de ser despues de ahora ");
 
-    }else{
+    }else if(this.coste<1){
+      this.mostrarMensaje("El coste no puede ser nagativo ni cero");
+    }else if(this.capacidad<1){
+      this.mostrarMensaje("Debe tener una capacidad de pasajeros");
+    }
+    else{
 
     if(this.latDest && this.longDest && this.originLat && this.originLon && rutCokie &&this.horaSalida)
     {
@@ -200,7 +219,8 @@ private obtenerDireccion(lat: number, lon: number): void {
       console.log(this.horaSalida);
       
       this.viajeServicio.createViaje(viaje);
-      this.mostrarMensaje('felicidades creaste un viaje '+viaje.toString());
+      this.mostrarMensaje('Viaje creado con exito');
+      //this.mostrarMensaje('felicidades creaste un viaje '+viaje.toString());
     }
   }
 

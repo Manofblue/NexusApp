@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Listado de Viajes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="refrescarViajes()">
+        Refrescar Viajes
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -9,17 +14,66 @@
     <div *ngIf="mapVisible" id="mapaVista" style="height: 300px; margin-top: 20px;"></div>
     <ion-item *ngFor="let viaje of viajes">
       <ion-label>
+
         <h2>{{ viaje.getDestino() }}</h2>
+        <p>Id: {{ viaje.getIdViaje() }} </p>
         <p>Tiempo: {{ viaje.getDuracion() }} min</p>
-        <p>Coste: ${{ viaje.getCoste() }} </p>
         <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
-        <p>Capacidad: {{ viaje.getCapacidad() }} personas</p>
-        <p>Capacidad: {{ viaje.getPasajeros() }} personas</p>
+        <p>cupos: {{ viaje.getCapacidad() }} personas</p>
+        <p>Coste: ${{ viaje.getCoste() }} </p>
+        <p>Estado: {{ viaje.getEstado()}}</p>
+        <!--<p>Creador: {{ verCreador(viaje.getRutCreador()) }} </p>-->
       </ion-label>
       <ion-button (click)="verDetalle(viaje)" slot="end">Ver Ruta</ion-button>
       <ion-button (click)="tomarViaje(viaje)" slot="end" color="primary">Tomar Viaje</ion-button>
     
     </ion-item>
   </ion-list>
+  <br>
+  <div *ngIf="viajesTomados">
+    <h3>viajesTomados</h3>
+  <ion-list>
+  
+    <!--<div *ngIf="mapVisible" id="mapaVista" style="height: 300px; margin-top: 20px;"></div>-->
+    <ion-item *ngFor="let viaje of viajesTomados">
+      <ion-label>
+        <h2>{{ viaje.getDestino() }}</h2>
+        <p>Id: {{ viaje.getIdViaje() }} </p>
+        <p>Tiempo: {{ viaje.getDuracion() }} min</p>
+        <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
+        <p>cupos: {{ viaje.getCapacidad() }} personas</p>
+        <p>Coste: ${{ viaje.getCoste() }} </p>
+        <p>Estado: {{ viaje.getEstado()}}</p>
+      </ion-label>
+      <ion-button (click)="verDetalle(viaje)" slot="end">Ver Ruta</ion-button>
+      <ion-button (click)="bajarseViaje(viaje)" slot="end" color="primary">Bajarse</ion-button>
+    
+    </ion-item>
+  </ion-list>
+</div>
+
+<br>
+<div *ngIf="viajesCreados">
+  <h3>Viajes Creados</h3>
+<ion-list>
+
+  <!--<div *ngIf="mapVisible" id="mapaVista" style="height: 300px; margin-top: 20px;"></div>-->
+  <ion-item *ngFor="let viaje of viajesCreados">
+    <ion-label>
+      <h2>{{ viaje.getDestino() }}</h2>
+      <p>Id: {{ viaje.getIdViaje() }} </p>
+      <p>Tiempo: {{ viaje.getDuracion() }} min</p>
+      <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
+      <p>cupos: {{ viaje.getCapacidad() }} personas</p>
+      <p>Coste: ${{ viaje.getCoste() }} </p>
+      <p>Estado: {{ viaje.getEstado()}}</p>
+    </ion-label>
+    <ion-button (click)="verDetalle(viaje)" slot="end">Ver Ruta</ion-button>
+    <ion-button (click)="eliminarViaje(viaje)" slot="end" color="primary">Eliminar</ion-button>
+    <ion-button (click)="bajarseViaje(viaje)" slot="end" color="primary">Editar</ion-button>
+  </ion-item>
+  
+</ion-list>
+</div>
 </ion-content>
 

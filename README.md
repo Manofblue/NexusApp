@@ -24,16 +24,10 @@ Este proyecto es una aplicación móvil de reserva de viajes inspirada en plataf
 - [+] Tomar Viaje.
 - [+] Visualizar mapa.
 - [ ] Administrar Viaje, limitaciones admin puede crear? solo editar y eliminar
-- [ ] Validar Viaje "Cupos o asientos".
-- [ ] Mejorar las validaciones del registro.
-- [ ] buscar viajes por creador.
-- [ ] ver historial de viajes?.
-- [ ] editar perfil de usuario.
+- [+] Validar Viaje "Cupos o asientos".
+- [ ] Mejorar las validaciones del registro, de auto patente.
+- [ ] editar viaje.
+- [+] editar perfil de usuario.
 ## Bugs
 
-- [ ] editar no contempla el auto.
-- [ ] Perfil no muestra los detalles del auto, solo si tiene auto.
-- [ ] dos autos con pantentes iguales?.
-- [ ] crear viaje solo con auto.
-- [ ] mostrar viajes, que estan pendientes y que no sean de la persona que los tomo en viajes.
-- [ ] validaciones al tomar viaje, pasajero no puede tomar el mismo viaje dos veces y validar la capacidad.
+

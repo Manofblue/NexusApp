@@ -4,6 +4,9 @@ import { ViajeService } from 'src/app/services/viaje.service';
 import * as L from 'leaflet';
 import * as G from 'leaflet-control-geocoder';
 import 'leaflet-routing-machine';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { AlertController } from '@ionic/angular';
+import { EstadoViaje } from 'src/app/models/EstadoViaje';
 @Component({
   selector: 'app-viajes',
   templateUrl: './viajes.page.html',
@@ -12,6 +15,8 @@ import 'leaflet-routing-machine';
 export class ViajesPage implements OnInit {
 
   viajes: Viaje[]| undefined;
+  viajesTomados: Viaje[]| undefined;
+  viajesCreados: Viaje[]| undefined;
 
   private originLat: number | undefined;
   private originLon: number | undefined;
@@ -20,17 +25,22 @@ export class ViajesPage implements OnInit {
   private longDest:number | undefined;
   mapVisible = false;
 
+  
+
   // Variables para gestionar el mapa y el geocodificador
   private map: L.Map | undefined; // Instancia del mapa
   private geocoder: G.Geocoder | undefined; // Instancia del geocodificador
-  constructor(private viajeService:ViajeService) {
+  constructor(private viajeService:ViajeService,private usuarioService:UsuarioService,private alertController: AlertController) {
     
    }
 
   async ngOnInit() {
  
+  this.setearViaje();
+
+
     //this.viajes=(await this.viajeService.getAllViajes()).filter((v)=>v.getCapacidad()>0);
-    this.viajes=(await this.viajeService.getAllViajes());
+    
     this.map = L.map("mapaVista").locate({ setView: true, maxZoom: 16 });
 
     // Configura la capa de teselas para la vista del mapa
@@ -38,6 +48,27 @@ export class ViajesPage implements OnInit {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
+  }
+
+  /**
+   * setearViaje
+   */
+  public async setearViaje() {
+    const rutCokie = localStorage.getItem('idUsuario');
+
+    if (rutCokie) {
+    this.viajes=this.viajesCreados=(await this.viajeService.getAllViajes())
+    .filter((viaje)=>viaje.getRutCreador()!=rutCokie
+    &&viaje.getCapacidad()>0&&viaje.getEstado()==EstadoViaje.Pendiente);
+
+  
+    this.viajesTomados=(await this.viajeService.getAllViajes())
+    .filter((viaje)=>viaje.tienePasejo(rutCokie));
+    
+    this.viajesCreados=(await this.viajeService.getAllViajes())
+    .filter((viaje)=>viaje.getRutCreador()==rutCokie);
+
+    }
 
 
 
@@ -88,20 +119,72 @@ export class ViajesPage implements OnInit {
     }
   }
 
-  tomarViaje(viaje: Viaje) {
+  async tomarViaje(viaje: Viaje) {
 
     const rutCokie = localStorage.getItem('idUsuario');
     if (rutCokie) {  
-     
-      
-        if(viaje.esCapacidadAdecuada(1)){
-          viaje.agregarPasajero(rutCokie);
-          this.viajeService.updateViaje(viaje.getIdViaje(),viaje);
+        if(!viaje.tienePasejo(rutCokie)){
+          if(viaje.esCapacidadAdecuada(1)){
+            viaje.agregarPasajero(rutCokie);
+            this.viajeService.updateViaje(viaje.getIdViaje(),viaje);
+          }
+        }else{
+          this.mostrarMensaje("Ya ha tomado este viaje");
         }
-     
- 
+      
+        this.setearViaje();
     }
     // Aquí podrías agregar lógica para reservar el viaje
   }
 
+  /**
+   * eliminarViaje
+viaje:Viaje   */
+  public async eliminarViaje(viaje:Viaje) {
+    await this.viajeService.deleteViaje(viaje.getIdViaje());
+    this.setearViaje();
+  }
+
+  /**
+   * bajarseViaje
+   */
+  public async bajarseViaje(viaje:Viaje) {
+
+    const rutCokie = localStorage.getItem('idUsuario');
+    if (rutCokie) {
+        viaje?.eliminarPasajero(rutCokie);
+      await this.viajeService.updateViaje(viaje.getIdViaje(),viaje);
+      this.setearViaje();
+    }
+  }
+
+  /**
+   * verCreador
+   */
+  public async verCreador(rut:string) {
+    var usuario=await this.usuarioService.getUsuario(rut);
+
+    return usuario?.getUsuario;
+  }
+
+  refrescarViajes(){
+    this.setearViaje();
+  }
+
+
+  async mostrarMensaje(mensaje:String) {
+    const alert = await this.alertController.create({
+      animated: true,
+      backdropDismiss: true,
+      message: mensaje+'',
+      buttons: [
+        {
+          text: 'Cerrar',
+          role: 'cancel',
+        },
+      ],
+    });
+    await alert.present();
+
+  }
 }

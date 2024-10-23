@@ -15,20 +15,21 @@ export class AdministrarPage implements OnInit {
 
   editar:boolean=false;
 
-  personaForm =new FormGroup({
-    fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
-    rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
-    usuario:new FormControl( '', [Validators.required, Validators.minLength(6)]),
-    contrasena:new FormControl( '', [Validators.required, Validators.minLength(3)]),
-    contrasena_conf:new FormControl( '', [Validators.required, Validators.minLength(3)]),
-    email: new FormControl('', [Validators.required,Validators.email]),
-    patente:new FormControl('', []),
-    marca: new FormControl('',[]),
-    modelo:new FormControl('', []),
-    color:new FormControl('', []),
-    tieneVehiculo: new FormControl(false) 
+    personaForm =new FormGroup({
+      fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
+      rut: new FormControl('',[]),
+      usuario:new FormControl( '', [Validators.required]),
+      contrasena:new FormControl( '', [Validators.required]),
+      contrasena_conf:new FormControl( '', [Validators.required]),
+      email: new FormControl('', [Validators.required,Validators.email]),
+      patente:new FormControl('', []),
+      marca: new FormControl('',[]),
+      modelo:new FormControl('', []),
+      color:new FormControl('', []),
+      tieneVehiculo: new FormControl(false),
+      plazas:new FormControl( '', [])
 
-  }, { validators: passwordMatchValidator() }); 
+    }, { validators: passwordMatchValidator() }); 
 
 
   usuarios:Usuario[] = [];
@@ -153,6 +154,8 @@ export class AdministrarPage implements OnInit {
 
   async modificar(){
     var rut_buscar: string = this.personaForm.controls.rut.value || "";
+    console.log(this.personaForm.valid);
+
     if (this.personaForm.valid) {
 
 
@@ -174,7 +177,7 @@ export class AdministrarPage implements OnInit {
           this.personaForm.value.marca ?? '',
           this.personaForm.value.modelo ?? '',
           this.personaForm.value.color ?? '',
-          5,
+          Number(this.personaForm.value.plazas??'0'),
           this.personaForm.value.rut??''
         );
         if(vehiculo){
