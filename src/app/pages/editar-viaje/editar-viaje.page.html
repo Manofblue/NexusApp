@@ -3,25 +3,13 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Gestion de viajes</ion-title>
+    <ion-title>Edicion Viaje</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let viaje of viajes">
-      <ion-label>
-        <h2>{{ viaje.getDestino() }}</h2>
-        <p>ID: {{ viaje.getIdViaje() }}</p>
-        <p>Coste: {{ viaje.getCoste() }} €</p>
-        <p>Duración: {{ viaje.getDuracion() }} min</p>
-        <p>Estado: {{ viaje.getEstado() }}</p>
-      </ion-label>
-      <ion-button (click)="actualizarViaje(viaje)">Editar</ion-button>
-      <ion-button color="danger" (click)="eliminarViaje(viaje.getIdViaje())">Eliminar</ion-button>
-    </ion-item>
-  </ion-list>
+<ion-content>
   
+ 
   <!-- Campo para el destino -->
   <ion-item>
     <ion-label position="floating">Destino</ion-label>
@@ -61,8 +49,8 @@
       <ion-select-option value="4">4</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-button expand="full" (click)="crearViaje()">Crear Viaje</ion-button>
   <div id="mapa" style="height: 300px; margin-top: 20px;"></div>
   <ion-button (click)="modificar(idViaje)" expand="full" color="dark" class="ion-margin-top" shape="round">Editar</ion-button>
  
+
 </ion-content>

@@ -196,15 +196,16 @@ private obtenerDireccion(lat: number, lon: number): void {
     }
 
     const esValido = await this.validarHoraSalida();
-    
+     
     if (!esValido) {
-      
-      this.mostrarMensaje("la hora de salida de salida de ser despues de ahora ");
-
-    }else if(this.coste<1){
-      this.mostrarMensaje("El coste no puede ser nagativo ni cero");
-    }else if(this.capacidad<1){
-      this.mostrarMensaje("Debe tener una capacidad de pasajeros");
+      this.mostrarMensaje("La hora de salida debe ser posterior a la hora actual.");
+    } else if (this.coste < 1) {
+      this.mostrarMensaje("El coste no puede ser negativo ni cero.");
+    } else if (this.capacidad < 1) {
+      this.mostrarMensaje("Debe tener una capacidad de pasajeros.");
+    } 
+    else if(!this.destino){
+      this.mostrarMensaje("Ingresar un destino");
     }
     else{
 
@@ -213,7 +214,7 @@ private obtenerDireccion(lat: number, lon: number): void {
       var randomInt =
         Math.floor(Math.random() * (2000000 - 1 + 1)) + 1;
 
-      var viaje=new Viaje(this.destino,this.coste,this.tiempo_segundos,EstadoViaje.Pendiente,this.capacidad,this.latDest,this.longDest,this.originLat,this.originLon,rutCokie,this.horaSalida,randomInt);
+      var viaje=new Viaje(this.destino,this.coste,this.tiempo_segundos,EstadoViaje.Pendiente,this.capacidad,this.latDest,this.longDest,this.originLat,this.originLon,rutCokie,this.horaSalida,randomInt,this.distancia_metros);
 
       console.log('Viaje guardado:', viaje);
       console.log(this.horaSalida);
@@ -226,19 +227,18 @@ private obtenerDireccion(lat: number, lon: number): void {
 
   }
 
-  async validarHoraSalida():Promise<Boolean>  {
+  async validarHoraSalida(): Promise<boolean> {
     const fechaActual = new Date();
-    // Validar que la hora de salida no sea antes de ayer
-    const ayer = new Date();
-    ayer.setDate(fechaActual.getDate() - 1);
-    if(this.horaSalida){
-      if (this.horaSalida < ayer) {
-        return false;
-      }
-      return true;
-    }return false;
 
-  
+    if (this.horaSalida) {
+      const horaSalidaDate = new Date(this.horaSalida);
+      if (horaSalidaDate <= fechaActual) {
+        return false; 
+      }
+      return true; 
+    }
+    
+    return false; 
   }
 
   async mostrarMensaje(mensaje:String) {

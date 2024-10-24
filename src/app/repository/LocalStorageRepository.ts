@@ -9,26 +9,7 @@ import { Storage } from '@ionic/storage';
 })
 export class LocalStorageRepository implements UsuarioRepository {
     
-    //acá podemos crear variables:
 
-    usuarios: any[] = [
-      {
-        "rut": "12345678-9",
-        "nombre": "admin",
-        "tipo_usuario": "admin",
-        "fecha_nacimiento": "1990-01-01",
-        "usuario": "admin",
-        "contrasena": "123",
-        "contrasena_conf": "123",
-        "email": "admin@gmail.com",
-        "patente": "",
-        "marca": "",
-        "modelo": "",
-        "color": "",
-        "tieneVehiculo": false
-      }
-    ];
-  
     constructor(private storage: Storage) { 
       this.init();
     }

@@ -91,6 +91,19 @@
           </ion-card>
         </div>
 
+        <ion-item lines="none">
+          <ion-label>
+            Acepto las <a (click)="mostrarPoliticas()">políticas de uso</a>
+          </ion-label>
+          <ion-button 
+            fill="outline" 
+            color="primary" 
+            [color]="personaForm.get('aceptarPoliticas')?.value ? 'success' : 'medium'" 
+            (click)="toggleAceptarPoliticas()">
+            {{ personaForm.get('aceptarPoliticas')?.value ? 'Aceptado' : 'Aceptar' }}
+          </ion-button>
+        </ion-item>
+        
         <div>
           <ion-button *ngIf="!personaForm.get('tieneVehiculo')?.value" id="present-alert" [disabled]="personaForm.invalid" type="submit" expand="full" color="secondary" 
           class="ion-margin-top" shape="round">REGISTRAR</ion-button>

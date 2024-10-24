@@ -42,7 +42,8 @@ export class RegistroPage implements OnInit {
     modelo:new FormControl('', []),
     color:new FormControl('', []),
     tieneVehiculo: new FormControl(false),
-    plazas:new FormControl( '', [])
+    plazas:new FormControl( '', []),
+    aceptarPoliticas: new FormControl(false, Validators.requiredTrue)
 
   }, { validators: passwordMatchValidator() }); 
 
@@ -157,6 +158,33 @@ export class RegistroPage implements OnInit {
 
     await alert.present();
   }
+
+  toggleAceptarPoliticas() {
+    const currentValue = this.personaForm.get('aceptarPoliticas')?.value;
+    this.personaForm.get('aceptarPoliticas')?.setValue(!currentValue);
+  }
+  
+
+  async mostrarPoliticas() {
+    const alert = await this.alertController.create({
+      header: 'Políticas de Uso',
+      message: `
+        <p>Al utilizar esta aplicación, aceptas las siguientes políticas:</p>
+        <ul>
+          <li>Los Datos de edicicion del viaje permitidos son coste, hora de salida y capacidad.</li>
+          <li>No podra cambiar su correo ni rut una vez registrado.</li>
+          <li>Debe ser conciente que el creador de un viaje puede eliminar un viaje, sin previo aviso aun si este esta pendiente.</li>
+          <li>DuocUc no se hace cargo de hurto ni de  ningun daño material, ocasionado durante el trayecto del viaje.</li>
+          <li>Nos reservamos el derecho de modificar estas políticas en cualquier momento.</li>
+          <li>Para más información, por favor consulta nuestras políticas de privacidad.</li>
+        </ul>
+      `,
+      buttons: ['Aceptar']
+    });
+  
+    await alert.present();
+  }
+  
 
   validarRut():ValidatorFn{
     return () => {

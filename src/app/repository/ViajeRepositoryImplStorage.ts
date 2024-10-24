@@ -34,7 +34,8 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
           v.longOrg,
           v.rutCreador,
           v.horaSalida,
-          v.idViaje
+          v.idViaje,
+          v.distancia
       );
       viaje.setPasajeros( v.pasajeros || []) ; 
       return viaje;

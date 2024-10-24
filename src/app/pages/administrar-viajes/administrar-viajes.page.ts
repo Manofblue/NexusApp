@@ -5,6 +5,7 @@ import { ViajeService } from 'src/app/services/viaje.service';
 import * as L from 'leaflet';
 import * as G from 'leaflet-control-geocoder';
 import 'leaflet-routing-machine';
+
 @Component({
   selector: 'app-administrar-viajes',
   templateUrl: './administrar-viajes.page.html',
@@ -55,55 +56,9 @@ export class AdministrarViajesPage implements OnInit {
   crearViaje() {
     
   }
+
   async actualizarViaje(viaje:Viaje){
-    this.mapVisible = true;
-    this.destino=viaje.getDestino();
-    this.coste=viaje.getCoste();
-    this.horaSalida=viaje.getHoraSalida();
-    this.capacidad=viaje.getCapacidad();
-    this.idViaje=viaje.getIdViaje();
-    this.latDest=viaje.getLatDest();
-    this.longDest=viaje.getLongDest();
-    this.originLat=viaje.getLatOrg();
-    this.originLon=viaje.getLongOrg();
 
-    this.viaje=viaje;
-    if (this.map) {
-      this.map.remove();
-    }
-
-    this.mapVisible = true; 
-
-    if (this.originLat && this.originLon) {
-
-        this.map = L.map("mapa").locate({ setView: true, maxZoom: 16 });
-        
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(this.map);
-  
-  
-        L.Routing.control({
-          waypoints: [
-            L.latLng(this.originLat, this.originLon), // Punto de origen
-            L.latLng(this.latDest, this.longDest) // Punto de destino
-          ],
-          fitSelectedRoutes: true, // Ajusta el mapa para mostrar la ruta
-        }).on('routesfound', (e) => {
-          
-        }).addTo(this.map);
-
-      
-      
-
-    // Configura la capa de teselas para la vista del mapa
-  
-
-    }else{
-      console.log("no se permite el mapa")
-    }
-    //this.distancia_metros=viaje.get
 
   }
   

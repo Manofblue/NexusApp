@@ -7,6 +7,7 @@ import 'leaflet-routing-machine';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { AlertController } from '@ionic/angular';
 import { EstadoViaje } from 'src/app/models/EstadoViaje';
+import { Route, Router } from '@angular/router';
 @Component({
   selector: 'app-viajes',
   templateUrl: './viajes.page.html',
@@ -30,7 +31,7 @@ export class ViajesPage implements OnInit {
   // Variables para gestionar el mapa y el geocodificador
   private map: L.Map | undefined; // Instancia del mapa
   private geocoder: G.Geocoder | undefined; // Instancia del geocodificador
-  constructor(private viajeService:ViajeService,private usuarioService:UsuarioService,private alertController: AlertController) {
+  constructor(private viajeService:ViajeService,private usuarioService:UsuarioService,private alertController: AlertController,private router: Router) {
     
    }
 
@@ -153,6 +154,21 @@ viaje:Viaje   */
     const rutCokie = localStorage.getItem('idUsuario');
     if (rutCokie) {
         viaje?.eliminarPasajero(rutCokie);
+      await this.viajeService.updateViaje(viaje.getIdViaje(),viaje);
+      this.setearViaje();
+    }
+  }
+
+  /**
+   * editar
+   */
+  public async editar(viaje:Viaje) {
+
+    const rutCokie = localStorage.getItem('idUsuario');
+    if (rutCokie) {
+        
+      this.router.navigate(['home/editar-viaje/',viaje.getIdViaje()]);//con esto dejamos al usuario en la opcion Inicio del tab
+
       await this.viajeService.updateViaje(viaje.getIdViaje(),viaje);
       this.setearViaje();
     }

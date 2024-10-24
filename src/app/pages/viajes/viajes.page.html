@@ -18,6 +18,7 @@
         <h2>{{ viaje.getDestino() }}</h2>
         <p>Id: {{ viaje.getIdViaje() }} </p>
         <p>Tiempo: {{ viaje.getDuracion() }} min</p>
+        <p>distancia: {{ viaje.getDistancia() }} km</p>
         <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
         <p>cupos: {{ viaje.getCapacidad() }} personas</p>
         <p>Coste: ${{ viaje.getCoste() }} </p>
@@ -40,6 +41,7 @@
         <h2>{{ viaje.getDestino() }}</h2>
         <p>Id: {{ viaje.getIdViaje() }} </p>
         <p>Tiempo: {{ viaje.getDuracion() }} min</p>
+        <p>distancia: {{ viaje.getDistancia() }} km</p>
         <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
         <p>cupos: {{ viaje.getCapacidad() }} personas</p>
         <p>Coste: ${{ viaje.getCoste() }} </p>
@@ -63,6 +65,7 @@
       <h2>{{ viaje.getDestino() }}</h2>
       <p>Id: {{ viaje.getIdViaje() }} </p>
       <p>Tiempo: {{ viaje.getDuracion() }} min</p>
+      <p>distancia: {{ viaje.getDistancia() }} km</p>
       <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
       <p>cupos: {{ viaje.getCapacidad() }} personas</p>
       <p>Coste: ${{ viaje.getCoste() }} </p>
@@ -70,7 +73,7 @@
     </ion-label>
     <ion-button (click)="verDetalle(viaje)" slot="end">Ver Ruta</ion-button>
     <ion-button (click)="eliminarViaje(viaje)" slot="end" color="primary">Eliminar</ion-button>
-    <ion-button (click)="bajarseViaje(viaje)" slot="end" color="primary">Editar</ion-button>
+    <ion-button (click)="editar(viaje)" slot="end" color="primary">Editar</ion-button>
   </ion-item>
   
 </ion-list>

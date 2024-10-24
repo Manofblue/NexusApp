@@ -15,6 +15,7 @@ export class Viaje {
     private capacidad: number; // Capacidad del viaje (número de plazas disponibles)
     private horaSalida: Date;
     private pasajeros: String[];
+    private distancia:number;
 
     constructor(
         destino: string,
@@ -28,7 +29,8 @@ export class Viaje {
         longOrg: number,
         rutCreador: string,
         horaSalida: Date,
-        idViaje: number
+        idViaje: number,
+        distancia:number
     ) {
         this.destino = destino;
         this.coste = coste;
@@ -42,7 +44,8 @@ export class Viaje {
         this.rutCreador = rutCreador;
         this.idViaje = idViaje;
         this.horaSalida = horaSalida;
-        this.pasajeros = []; // Cambiado a un array vacío
+        this.pasajeros = [];
+        this.distancia=distancia;
     }
 
     // Método para verificar si la capacidad es adecuada
@@ -106,6 +109,10 @@ export class Viaje {
 
     public getPasajeros(): String[] {
         return this.pasajeros;
+    }
+
+    public getDistancia():number {
+        return this.distancia;
     }
 
     /**

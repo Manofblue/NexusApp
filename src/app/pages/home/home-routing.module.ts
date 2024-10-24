@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePage } from './home.page';
+import { authGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -26,6 +27,22 @@ const routes: Routes = [
       {
         path: 'inicio',
         loadChildren: () => import('../inicio/inicio.module').then(m => m.InicioPageModule)
+      },
+
+      {
+        path: 'administrar',
+        canActivate: [authGuard],
+        loadChildren: () => import('../administrar/administrar.module').then(m => m.AdministrarPageModule),
+      },
+      {
+        path: 'administrar-viajes',
+        canActivate: [authGuard],
+        loadChildren: () => import('../administrar-viajes/administrar-viajes.module').then(m => m.AdministrarViajesPageModule),
+      },
+      {
+        path: 'editar-viaje/:id',
+        canActivate: [authGuard],
+        loadChildren: () => import('../editar-viaje/editar-viaje.module').then(m => m.EditarViajePageModule),
       },
     
       {
