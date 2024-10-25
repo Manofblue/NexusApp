@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 
-import * as nodemailer from 'nodemailer';
+//import * as nodemailer from 'nodemailer';
 
 
 @Component({
@@ -44,7 +44,7 @@ export class RecuperarContrasenaPage implements OnInit {
   }
 
 
-
+/*
 
       public transporter = nodemailer.createTransport({
         host: 'smtp.office365.com', // Cambia por tu host SMTP
@@ -71,5 +71,5 @@ export class RecuperarContrasenaPage implements OnInit {
           console.log('Correo enviado: ' + info.response);
         });
       };
-
+*/
 }
