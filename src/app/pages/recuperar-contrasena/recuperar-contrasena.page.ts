@@ -56,6 +56,7 @@ export class RecuperarContrasenaPage implements OnInit {
         },
       });
 
+
       public enviarCorreo = (destinatario: string, asunto: string, mensaje: string) => {
         const mailOptions = {
           from: 'tuemail@example.com',

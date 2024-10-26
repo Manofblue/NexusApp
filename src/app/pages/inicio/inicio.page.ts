@@ -43,6 +43,7 @@ export class InicioPage implements OnInit {
   coste: number=0;
   duracion: number=0;
   capacidad:number=0;
+  private routingControl: L.Routing.Control | undefined;
 
 
 
@@ -87,6 +88,12 @@ export class InicioPage implements OnInit {
 
       // Verifica si el mapa y las coordenadas de origen están definidas antes de calcular la ruta
       if (this.map && this.originLat && this.originLon) {
+
+
+        if (this.routingControl) {
+          this.map.removeControl(this.routingControl);
+        }
+
         this.latDest=this.latitud;
         this.longDest=this.longitud;
         L.Routing.control({

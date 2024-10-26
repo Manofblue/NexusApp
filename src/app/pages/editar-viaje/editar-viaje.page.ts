@@ -30,6 +30,7 @@ export class EditarViajePage implements OnInit {
 
   // Variables para gestionar el mapa y el geocodificador
   private map: L.Map | undefined; // Instancia del mapa
+  private geocoder: G.Geocoder | undefined; // Instancia del geocodificador
   latitud: number = 0; // Latitud actual
   longitud: number = 0; // Longitud actual
   direccion: string = ""; // Cadena de dirección
@@ -38,7 +39,7 @@ export class EditarViajePage implements OnInit {
   descripcion:String="";
   horaSalida:Date | undefined;
   ultimaHorasalida:Date | undefined;
-
+  ultimoDestino:String="";
   origen: string="";
   destino: string="";
   coste: number=0;
@@ -46,12 +47,14 @@ export class EditarViajePage implements OnInit {
   capacidad:number=0;
   mapVisible = false;
   viaje:Viaje|undefined;
+  private routingControl: L.Routing.Control | undefined;
 
   constructor(private activatedRoute: ActivatedRoute,private viajeServicee:ViajeService,private alertController: AlertController) { }
 
   async ngOnInit() {
-    console.log(this.activatedRoute.snapshot.paramMap.get("id"));
+    //console.log(this.activatedRoute.snapshot.paramMap.get("id"));
     
+
     this.idViaje = +(this.activatedRoute.snapshot.paramMap.get("id") || "");
     
     var viaje=await this.viajeServicee.getViaje(this.idViaje);
@@ -82,7 +85,7 @@ export class EditarViajePage implements OnInit {
     this.originLon=viaje.getLongOrg();
     this.distancia_metros=viaje.getDistancia();
     this.tiempo_segundos=viaje.getDuracion();
-    
+    this.ultimoDestino=viaje.getDestino();
 
     this.viaje=viaje;
     if (this.map) {
@@ -100,16 +103,53 @@ export class EditarViajePage implements OnInit {
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(this.map);
   
-  
-        L.Routing.control({
+          // Agrega un geocodificador (buscador de direcciones) al mapa
+    this.geocoder = G.geocoder({
+      placeholder: "Ingrese dirección a buscar",
+      errorMessage: "Dirección no encontrada"
+    }).addTo(this.map);
+
+
+    this.geocoder.on('markgeocode', (e) => {
+      this.latitud = e.geocode.properties['lat'];
+      this.longitud = e.geocode.properties['lon'];
+      this.destino = e.geocode.properties['display_name'];
+
+      // Calcular la ruta con las coordenadas nuevas
+      if (this.map && this.originLat && this.originLon) {
+        this.latDest = this.latitud;
+        this.longDest = this.longitud;
+
+        // Eliminar la ruta anterior si existe
+        if (this.routingControl) {
+          this.map.removeControl(this.routingControl);
+        }
+
+        this.routingControl = L.Routing.control({
           waypoints: [
             L.latLng(this.originLat, this.originLon), // Punto de origen
-            L.latLng(this.latDest, this.longDest) // Punto de destino
+            L.latLng(this.latitud, this.longitud) // Punto de destino
           ],
-          fitSelectedRoutes: true, // Ajusta el mapa para mostrar la ruta
+          fitSelectedRoutes: true,
         }).on('routesfound', (e) => {
-          
+          this.distancia_metros = e.routes[0].summary.totalDistance / 1000;
+          this.tiempo_segundos = e.routes[0].summary.totalTime / 60;
+          this.tiempo_segundos = Math.round(this.tiempo_segundos);
+          this.coste = Math.round(1150 * this.distancia_metros * 1.2);
         }).addTo(this.map);
+      }
+    });
+    
+  
+    this.routingControl = L.Routing.control({
+      waypoints: [
+        L.latLng(this.originLat, this.originLon),
+        L.latLng(this.latDest, this.longDest)
+      ],
+      fitSelectedRoutes: true,
+    }).on('routesfound', (e) => {
+      // Puedes hacer algo con la ruta inicial aquí si es necesario
+    }).addTo(this.map);
 
     
     // Configura la capa de teselas para la vista del mapa
@@ -171,6 +211,18 @@ export class EditarViajePage implements OnInit {
       if(this.coste&&this.horaSalida){
         this.viaje.setHoraSalida(this.horaSalida);
         this.viaje.setCoste(this.coste);
+        this.viaje.setCapacidad(this.capacidad);
+        if(this.destino!=this.ultimoDestino){
+          if(this.latDest&&this.longDest&&this.originLat&&this.originLon){
+            this.viaje.setDestino(this.destino);
+            this.viaje.setLatDest(this.latDest);
+            this.viaje.setLongDest(this.longDest);
+            this.viaje.setLatOrg(this.originLat);
+            this.viaje.setLongOrg(this.originLon);
+          }
+    
+        }
+
         this.viajeServicee.updateViaje(idViaje,this.viaje);
         this.mostrarMensaje("El Viaje fue modificado con exito");
       }
