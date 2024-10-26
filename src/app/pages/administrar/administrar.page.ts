@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/Usuario';
 import { Vehiculo } from 'src/app/models/Vehiculo';
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -37,7 +37,7 @@ export class AdministrarPage implements OnInit {
 
 
   //el servicio nos permite trabajar la información:
-  constructor(private usuarioService: UsuarioService,private alertController: AlertController) { }
+  constructor(private usuarioService: UsuarioService,private alertController: AlertController, private navCtrl: NavController ) { }
 
   async ngOnInit() {
 
@@ -45,6 +45,9 @@ export class AdministrarPage implements OnInit {
 
   }
 
+  volverAlPanel() {
+    this.navCtrl.navigateBack('/home/menu-admin'); // Navegar de regreso al panel principal
+  }
 
   toggleFormulario() {
     const mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;
@@ -221,6 +224,7 @@ export class AdministrarPage implements OnInit {
 
     await alert.present();
   }
+  
 
 }
 

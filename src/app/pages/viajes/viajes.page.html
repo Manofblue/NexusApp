@@ -1,15 +1,17 @@
-<ion-header>
+
+<ion-content>
   <ion-toolbar>
     <ion-title>Listado de Viajes</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="refrescarViajes()">
         Refrescar Viajes
       </ion-button>
+      <ion-button expand=" " color="secondary" class="ion-margin-top" shape="round">
+        Crear Viaje
+        <ion-icon name="add-outline" slot="end" color="secondary"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
-</ion-header>
-
-<ion-content>
   <ion-list>
     <div *ngIf="mapVisible" id="mapaVista" style="height: 300px; margin-top: 20px;"></div>
     <ion-item *ngFor="let viaje of viajes">
@@ -20,7 +22,7 @@
         <p>Tiempo: {{ viaje.getDuracion() }} min</p>
         <p>distancia: {{ viaje.getDistancia() }} km</p>
         <p>Hora de Salida: {{ viaje.getHoraSalida() }}</p>
-        <p>cupos: {{ viaje.getCapacidad() }} personas</p>
+        <p>Cupos: {{ viaje.getCapacidad() }} personas</p>
         <p>Coste: ${{ viaje.getCoste() }} </p>
         <p>Estado: {{ viaje.getEstado()}}</p>
         <!--<p>Creador: {{ verCreador(viaje.getRutCreador()) }} </p>-->
@@ -79,4 +81,5 @@
 </ion-list>
 </div>
 </ion-content>
+
 

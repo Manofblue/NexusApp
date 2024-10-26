@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController,NavController  } from '@ionic/angular';
 import { Usuario } from 'src/app/models/Usuario';
 import { Vehiculo } from 'src/app/models/Vehiculo';
 import { UsuarioService } from 'src/app/services/usuario.service';
+
 
 @Component({
   selector: 'app-perfil',
@@ -13,6 +14,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class PerfilPage implements OnInit {
 
   usuario: Usuario | null = null; // Inicialmente nulo
+  public mensajeBienuti:String | undefined;
 
   rut:string="";
 
@@ -39,7 +41,9 @@ export class PerfilPage implements OnInit {
   usuarios:Usuario[] = [];
 
 
-  constructor(private usuarioService: UsuarioService,private alertController: AlertController
+  constructor(private usuarioService: UsuarioService,
+              private alertController: AlertController,
+              private navController: NavController 
   ) { }
 
   
@@ -60,6 +64,12 @@ export class PerfilPage implements OnInit {
 
   }
 
+  
+  logout() {
+    localStorage.removeItem('rol');
+    localStorage.removeItem('idUsuario');
+    this.navController.navigateRoot('/login'); // Navegación al login
+  }
 
   toggleFormulario() {
     const mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;

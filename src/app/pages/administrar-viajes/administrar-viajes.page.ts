@@ -5,6 +5,7 @@ import { ViajeService } from 'src/app/services/viaje.service';
 import * as L from 'leaflet';
 import * as G from 'leaflet-control-geocoder';
 import 'leaflet-routing-machine';
+import {NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-administrar-viajes',
@@ -45,13 +46,16 @@ export class AdministrarViajesPage implements OnInit {
 
 
 
-  constructor(private viajeService:ViajeService) { }
+  constructor(private viajeService:ViajeService, private navCtrl: NavController) { }
 
   async ngOnInit() {
 
     this.viajes=(await this.viajeService.getAllViajes());
   }
 
+  volver() {
+    this.navCtrl.navigateBack('/home/menu-admin'); 
+  }
 
   crearViaje() {
     

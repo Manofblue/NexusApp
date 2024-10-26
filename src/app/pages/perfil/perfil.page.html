@@ -24,6 +24,7 @@
     </ion-col>
   </ion-row>
 
+  <ion-button (click)="logout()" expand="full" color="secondary" class="ion-margin-top" shape="round">Cerrar sesión</ion-button>
   <form [formGroup]="personaForm" (ngSubmit)="modificar()">
     <ion-list lines="none" class="ion-margin ion-padding ion-text-center">
 

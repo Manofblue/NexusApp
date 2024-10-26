@@ -1,17 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <p slot="end">{{mensajeBienuti}}</p>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()">
-        <ion-icon name="log-out"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>
-      Home
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <ion-tabs>
     <ion-tab-bar slot="bottom">
@@ -25,15 +11,10 @@
         <ion-icon name="key-sharp"></ion-icon>
         <ion-label>Administrar</ion-label>
       </ion-tab-button>
-
-      <ion-tab-button tab="reservas">
-        <ion-icon name="calendar-number-sharp"></ion-icon>
-        <ion-label>Reservas</ion-label>
-      </ion-tab-button>
-
+      
       <ion-tab-button tab="viajes">
         <ion-icon name="calendar-number-sharp"></ion-icon>
-        <ion-label>viajes</ion-label>
+        <ion-label>Viajes</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="perfil">
