@@ -6,6 +6,8 @@ import * as L from 'leaflet';
 import * as G from 'leaflet-control-geocoder';
 import 'leaflet-routing-machine';
 import {AlertController, NavController } from '@ionic/angular';
+import { Usuario } from 'src/app/models/Usuario';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-administrar-viajes',
@@ -17,6 +19,9 @@ export class AdministrarViajesPage implements OnInit {
   idViaje: number = 0;
 
   viajes: Viaje[]| undefined;
+
+  conductores:Usuario[]|undefined;
+
   private defaultLat: number = -33.608552227594245; 
   private defaultLon: number = -70.58039819211703;
   
@@ -49,13 +54,24 @@ export class AdministrarViajesPage implements OnInit {
   private routingControl: L.Routing.Control | undefined;
   editarViaje:boolean=false;
 
+  clientes = [
+    { nombre: 'Juan Pérez', rut: '12345678-9' },
+    { nombre: 'María González', rut: '98765432-1' },
+    // Agrega más clientes según sea necesario
+  ];
 
+ 
 
-  constructor(private viajeService:ViajeService, private navCtrl: NavController,private alertController: AlertController) { }
+  constructor(private viajeService:ViajeService, private navCtrl: NavController,private alertController: AlertController,
+    private usuarioService:UsuarioService
+  ) { }
 
   async ngOnInit() {
     this.initMap(); // Inicializa el mapa al cargar el componente
     this.setLocation(); // Establece la ubicación actual del usuario
+    this.conductores=(await this.usuarioService.getUsuarios())
+    .filter((us)=>us.tieneVehiculo()==true);
+    
     this.viajes=(await this.viajeService.getAllViajes());
   }
 
@@ -63,10 +79,75 @@ export class AdministrarViajesPage implements OnInit {
     this.navCtrl.navigateBack('/home/menu-admin'); 
   }
 
-  crearViaje() {
+  async crearViaje() {
     
-    
+    const alert = await this.alertController.create({
+      header: 'Seleccionar Conductor',
+      inputs: this.conductores?.map(conductor => ({
+        name: 'conductor',
+        type: 'radio', // Usamos radio para que solo se pueda seleccionar uno
+        label: `${conductor.getUsuario()} (${conductor.getRut()})`,
+        value: conductor.getRut(),
+        handler: (value) => {
+          console.log('Conductor seleccionado:', value);
+        }
+      })),
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Selección cancelada');
+          }
+        },
+        {
+          text: 'Seleccionar',
+          handler: (data) => {
+            if (data) {
+              this.procederCrearViaje(data);
+            } else {
+              console.log('No se seleccionó conductor');
+            }
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+
+  }
+
+  async procederCrearViaje(rut: string) {
+ 
+    const esValido = await this.validarHoraSalida();
+     
+    if (!esValido) {
+      this.mostrarMensaje("La hora de salida debe ser posterior a la hora actual.");
+    } else if (this.coste < 1) {
+      this.mostrarMensaje("El coste no puede ser negativo ni cero.");
+    } else if (this.capacidad < 1) {
+      this.mostrarMensaje("Debe tener una capacidad de pasajeros.");
+    } 
+    else if(!this.destino){
+      this.mostrarMensaje("Ingresar un destino");
+    }
+    else{
+
+    if(this.latDest && this.longDest && this.originLat && this.originLon && rut &&this.horaSalida)
+    {
+      var randomInt =
+        Math.floor(Math.random() * (2000000 - 1 + 1)) + 1;
+
+      var viaje=new Viaje(this.destino,this.coste,this.tiempo_segundos,EstadoViaje.Pendiente,this.capacidad,this.latDest,this.longDest,this.originLat,this.originLon,rut,this.horaSalida,randomInt,this.distancia_metros);
+
+      console.log('Viaje guardado:', viaje);
+      console.log(this.horaSalida);
+      
+      this.viajeService.createViaje(viaje);
+      this.mostrarMensaje('Viaje creado con exito');
+      //this.mostrarMensaje('felicidades creaste un viaje '+viaje.toString());
+    }
+  }
   }
 
   async actualizarViajes(){
