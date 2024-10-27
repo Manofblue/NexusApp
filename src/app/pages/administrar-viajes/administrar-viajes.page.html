@@ -65,8 +65,9 @@
       <ion-select-option value="4">4</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-button expand="full" (click)="crearViaje()" color="secondary" class="ion-margin-top" shape="round">Crear Viaje</ion-button>
-  <ion-button (click)="modificar(idViaje)" expand="full" color="dark" class="ion-margin-top" shape="round">Editar</ion-button>
+  <ion-button *ngIf="!editarViaje" expand="full" (click)="crearViaje()" color="secondary" class="ion-margin-top" shape="round">Crear Viaje</ion-button>
+  <ion-button *ngIf="editarViaje" (click)="actualizarViaje(idViaje)" expand="full" color="dark" class="ion-margin-top" shape="round">Editar</ion-button>
+  <ion-button (click)="actualizarViajes()" expand="full" color="secondary" class="ion-margin-top" shape="round">actualizarViajes</ion-button>
   </ion-list>  
   
   <ion-list>
@@ -78,9 +79,10 @@
         <p>Duración: {{ viaje.getDuracion() }} min</p>
         <p>Estado: {{ viaje.getEstado() }}</p>
       </ion-label>
-      <ion-button (click)="actualizarViaje(viaje)">Editar</ion-button>
+      <ion-button (click)="modificar(viaje.getIdViaje())">Editar</ion-button>
       <ion-button color="danger" (click)="eliminarViaje(viaje.getIdViaje())">Eliminar</ion-button>  
     </ion-item>
+    
     <ion-button (click)="volver()" expand="full" color="secondary" class="ion-margin-top" shape="round">Volver</ion-button>
   </ion-list>
 

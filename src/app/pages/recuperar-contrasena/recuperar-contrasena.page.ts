@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 //import * as nodemailer from 'nodemailer';
 
@@ -13,14 +14,21 @@ export class RecuperarContrasenaPage implements OnInit {
 
   correo: string = "";
 
-  constructor(private alertController: AlertController) { }
+  constructor(private alertController: AlertController,private usuarioService:UsuarioService) { }
 
   ngOnInit() {}
 
-  public recuperarContrasena(): void {
-    if (this.isEmailValid()) {
-      this.showAlert();
-    }
+  public async recuperarContrasena(): Promise< void> {
+    
+
+      var correo=await this.usuarioService.recuperarUsuario(this.correo)
+      if(correo){
+        this.showAlert('Correo enviado a ' + this.correo + ' para recuperar la contraseña.');
+      }else{
+        this.showAlert('No existe el correo: ' + this.correo );
+      }
+      
+    
   }
 
   public isEmailValid(): boolean {
@@ -28,11 +36,11 @@ export class RecuperarContrasenaPage implements OnInit {
     return emailPattern.test(this.correo);
   }
 
-  async showAlert() {
+  async showAlert(correo:string) {
     const alert = await this.alertController.create({
       animated: true,
       backdropDismiss: true,
-      message: 'Correo enviado a ' + this.correo + ' para recuperar la contraseña.',
+      message: correo,
       buttons: [
         {
           text: 'Cerrar',
