@@ -44,6 +44,7 @@ export class InicioPage implements OnInit {
   duracion: number=0;
   capacidad:number=0;
   private routingControl: L.Routing.Control | undefined;
+  
 
 
 
@@ -261,7 +262,7 @@ private obtenerDireccion(lat: number, lon: number): void {
       ],
     });
     await alert.present();
-
   }
+  
 
 }
