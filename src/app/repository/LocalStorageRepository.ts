@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Usuario } from 'src/app/models/Usuario';
 import { UsuarioRepository } from './UsuarioRepository';
 import { Storage } from '@ionic/storage';
+import { Vehiculo } from '../models/Vehiculo';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +18,25 @@ export class LocalStorageRepository implements UsuarioRepository {
     async init() {
       await this.storage.create();
       const usuariosRaw: any[] = await this.storage.get('usuarios') || [];
+
+      const usuarios = [
+        // Usuarios con vehículos
+        new Usuario("1990-01-01", "12345678-9", "admin", "admin", "123", "123", "admin@gmail.com", undefined),
+        new Usuario("1985-05-15", "98765432-1", "usuario", "usuario1", "123", "123", "user1@duocuc.cl", new Vehiculo("XYZ789", "Ford", "Fiesta", "Azul", 4, "98765432-1")),
+        new Usuario("2000-07-20", "65432109-8", "usuario", "usuario4", "123", "123", "user4@duocuc.cl", new Vehiculo("RST654", "Kia", "Rio", "Blanco", 4, "65432109-8")),
+        new Usuario("2000-07-20", "23432139-8", "usuario", "usuario5", "123", "123", "user5@duocuc.cl", new Vehiculo("RST654", "Kia", "Rio", "Blanco", 4, "23432139-8")),
+
+        // Usuarios sin vehículos
+        new Usuario("1992-12-12", "87654321-0", "usuario", "usuario2", "123", "123", "user2@duocuc.cl", undefined), // Sin vehículo
+        new Usuario("1995-03-03", "76543210-9", "usuario", "usuario3", "123", "123", "user3@duocuc.cl", undefined)  // Sin vehículo
+    ];
+    
+    for (const usuario of usuarios) {
+        await this.createUsuario(usuario);
+    }
       if (usuariosRaw.length === 0) {
-        const admin = new Usuario(
-          "1990-01-01", 
-          "12345678-9", 
-          "admin", 
-          "admin", 
-          "123", 
-          "123", 
-          "admin@gmail.com"
-        );
-        await this.createUsuario(admin);
+  
+        //usuarios.forEach((usuario)=>this.createUsuario(usuario));
       }
     }
     
@@ -120,11 +129,18 @@ export class LocalStorageRepository implements UsuarioRepository {
     
     }
   
-    public async recuperarUsuario(correo: string): Promise<Usuario | undefined> {
+    public async recuperarUsuario(correo: string): Promise<boolean> {
       const usuarios: Usuario[] = (await this.storage.get('usuarios')) || [];
-
-      return usuarios.find((elemento) => elemento.getEmail() === correo);
+      
+      // Si los usuarios son instancias de Usuario
+      //const existe = usuarios.find((usuario) => usuario instanceof Usuario && usuario.getEmail() === correo);
+    
+      // Si los usuarios son objetos simples
+       const existe = usuarios.find((usuario) => usuario.email === correo);
+    
+      return !!existe; // Devuelve true si existe, false si no
     }
+    
   
   
 }

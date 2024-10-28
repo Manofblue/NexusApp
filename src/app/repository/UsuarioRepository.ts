@@ -8,6 +8,6 @@ export interface UsuarioRepository {
     updateUsuario(rut: string, nuevoUsuario: Usuario): Promise<boolean>;
     deleteUsuario(rut: string): Promise<boolean>;
     login(correo: string, contrasena: string): Promise<boolean>;
-    recuperarUsuario(correo: string): Promise<Usuario | undefined>;
+    recuperarUsuario(correo: string): Promise<boolean>
 
 }

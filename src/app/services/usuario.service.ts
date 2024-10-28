@@ -41,7 +41,7 @@ export class UsuarioService {
       return this.usuarioRepository.login(correo,contrasena);
     }
 
-    public async recuperarUsuario(correo: string): Promise<Usuario | undefined> {
+    public async recuperarUsuario(correo: string): Promise<boolean> {
       return this.usuarioRepository.recuperarUsuario(correo);
     }
     

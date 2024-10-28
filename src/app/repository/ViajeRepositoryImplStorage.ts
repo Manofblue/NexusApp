@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Viaje } from '../models/Viaje';
 import { ViajeRepository } from './ViajeRepository';
 import { Storage } from '@ionic/storage-angular';
+import { EstadoViaje } from '../models/EstadoViaje';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,45 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
   async init() {
     await this.storage.create();
     const viajesRaw: any[] = await this.storage.get('viajes') || [];
+
+ 
+    const ahora = new Date();
+    var ahora2 = new Date();
+    ahora.setHours(ahora.getHours() + 1); // Añadir una hora a la fecha actual
+    ahora2.setHours(ahora.getHours() + 2); // Añadir una hora a la fecha actual
+    
+    const viajes = [
+        { nombre: "Parque Mahuida", costo: 6000, duracion: 30, capacidad: 4, latDestino: -33.4641, longDestino: -70.5650, rutCreador: "23432139-8", horaSalida: new Date(ahora), distancia: 8 },
+        { nombre: "Plaza de Puente Alto", costo: 4000, duracion: 25, capacidad: 4, latDestino: -33.6052, longDestino: -70.5788, rutCreador: "98765432-1", horaSalida: new Date(ahora), distancia: 5 },
+        { nombre: "Mall Plaza Vespucio", costo: 7000, duracion: 40, capacidad: 4, latDestino: -33.4660, longDestino: -70.5896, rutCreador: "65432109-8", horaSalida: new Date(ahora), distancia: 10 },
+        { nombre: "Cerro San Luis", costo: 8000, duracion: 35, capacidad: 4, latDestino: -33.4932, longDestino: -70.5700, rutCreador: "98765432-1", horaSalida: new Date(ahora2), distancia: 15 },
+        { nombre: "Parque O'Higgins", costo: 5000, duracion: 30, capacidad: 4, latDestino: -33.4660, longDestino: -70.6214, rutCreador: "23432139-8", horaSalida: new Date(ahora2), distancia: 7 }
+    ];
+    
+    // Genera un ID único para cada viaje
+    let idCounter = 1;
+    
+    for (const viaje of viajes) {
+        const { nombre, costo, duracion, capacidad, latDestino, longDestino, rutCreador, horaSalida, distancia } = viaje;
+        
+        await this.createViaje(new Viaje(
+            nombre,
+            costo,
+            duracion,
+            EstadoViaje.Pendiente,
+            capacidad,
+            latDestino,
+            longDestino,
+            -33.59826878740974, // Latitud de origen
+            -70.57921390763516, // Longitud de origen
+            rutCreador,
+            horaSalida,
+            idCounter++, // Incrementar el ID único
+            distancia // Distancia única
+        ));
+    }
+    
+
     this.viajes = this.mapToViajes(viajesRaw);
   }
 

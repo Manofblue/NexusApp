@@ -7,7 +7,7 @@ export class Usuario {
     private usuario: string;
     private contrasena: string;
     private contrasena_conf: string;
-    private email: string;
+    public email: string;
     private vehiculo?: Vehiculo; 
 
 

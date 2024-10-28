@@ -196,12 +196,35 @@ export class AdministrarViajesPage implements OnInit {
   
 
   async eliminarViaje(idViaje: number) {
-    const eliminado = await this.viajeService.deleteViaje(idViaje);
-    if (eliminado) {
-      this.viajes = await this.viajeService.getAllViajes(); 
-    } else {
-    }
+    const alert = await this.alertController.create({
+      header: 'Confirmar Eliminación',
+      message: '¿Estás seguro de que deseas eliminar este viaje?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Eliminación cancelada');
+          }
+        },
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            const eliminado = await this.viajeService.deleteViaje(idViaje);
+            if (eliminado) {
+              this.viajes = await this.viajeService.getAllViajes(); 
+              this.mostrarMensaje('Viaje eliminado con éxito');
+            } else {
+              this.mostrarMensaje('Error al eliminar el viaje');
+            }
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
   }
+  
 
   async modificar(idViaje:number){
 

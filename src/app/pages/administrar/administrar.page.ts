@@ -202,14 +202,34 @@ export class AdministrarPage implements OnInit {
     }
   }
 
-  async eliminar(rut_eliminar:string){
-    //console.log(rut_eliminar);
-    if(await this.usuarioService.deleteUsuario(rut_eliminar) ){
-      this.showAlert("USUARIO ELIMINADO CON ÉXITO!")
-    }else{
-      this.showAlert("ERROR! USUARIO NO ELIMINADO!")
-    }
+  async eliminar(rut_eliminar: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Eliminación',
+      message: '¿Estás seguro de que deseas eliminar este usuario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Eliminación cancelada');
+          }
+        },
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            if (await this.usuarioService.deleteUsuario(rut_eliminar)) {
+              this.showAlert("USUARIO ELIMINADO CON ÉXITO!");
+            } else {
+              this.showAlert("ERROR! USUARIO NO ELIMINADO!");
+            }
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
   }
+  
 
   /**
    * limpiar

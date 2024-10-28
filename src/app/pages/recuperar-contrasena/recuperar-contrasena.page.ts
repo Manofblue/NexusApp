@@ -14,33 +14,41 @@ export class RecuperarContrasenaPage implements OnInit {
 
   correo: string = "";
 
-  constructor(private alertController: AlertController,private usuarioService:UsuarioService) { }
+  constructor(private alertController: AlertController, private usuarioService: UsuarioService) { }
 
   ngOnInit() {}
 
-  public async recuperarContrasena(): Promise< void> {
-    
-
-      var correo=await this.usuarioService.recuperarUsuario(this.correo)
-      if(correo){
+  public async recuperarContrasena(): Promise<void> {
+    if (!this.isEmailValid()) {
+      this.showAlert('Por favor, ingresa un correo electrónico válido.');
+      return;
+    }
+  
+    try {
+      const existeUsuario = await this.usuarioService.recuperarUsuario(this.correo);
+      if (existeUsuario) {
         this.showAlert('Correo enviado a ' + this.correo + ' para recuperar la contraseña.');
-      }else{
-        this.showAlert('No existe el correo: ' + this.correo );
+      } else {
+        this.showAlert('No existe el correo: ' + this.correo);
       }
-      
-    
+    } catch (error) {
+      console.error('Error en la recuperación de contraseña:', error);
+      this.showAlert('Hubo un problema al procesar tu solicitud. Por favor intenta nuevamente.');
+    }
   }
+  
 
   public isEmailValid(): boolean {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@duocuc\.cl$/;
     return emailPattern.test(this.correo);
-  }
+}
 
-  async showAlert(correo:string) {
+
+  async showAlert(mensaje: string) {
     const alert = await this.alertController.create({
       animated: true,
       backdropDismiss: true,
-      message: correo,
+      message: mensaje,
       buttons: [
         {
           text: 'Cerrar',
@@ -50,7 +58,7 @@ export class RecuperarContrasenaPage implements OnInit {
     });
     await alert.present();
   }
-
+  
 
 /*
 
