@@ -21,19 +21,22 @@ export class LocalStorageRepository implements UsuarioRepository {
 
       const usuarios = [
         // Usuarios con vehículos
-        new Usuario("1990-01-01", "12345678-9", "admin", "admin", "123", "123", "admin@gmail.com", undefined),
-        new Usuario("1985-05-15", "98765432-1", "usuario", "usuario1", "123", "123", "user1@duocuc.cl", new Vehiculo("XYZ789", "Ford", "Fiesta", "Azul", 4, "98765432-1")),
-        new Usuario("2000-07-20", "65432109-8", "usuario", "usuario4", "123", "123", "user4@duocuc.cl", new Vehiculo("RST654", "Kia", "Rio", "Blanco", 4, "65432109-8")),
-        new Usuario("2000-07-20", "23432139-8", "usuario", "usuario5", "123", "123", "user5@duocuc.cl", new Vehiculo("RST654", "Kia", "Rio", "Blanco", 4, "23432139-8")),
-
+        new Usuario("1990-01-01", "12345678-9", "admin", "admin", "1234!", "1234!", "admin@gmail.com", new Vehiculo("XY 12 ZW", "Ford", "Fiesta", "Azul", 4, "12345678-9")),
+        new Usuario("1985-05-15", "98765432-1", "usuario", "usuario1", "Passw0rd!", "Passw0rd!", "user1@duocuc.cl", new Vehiculo("RS 34 TU", "Kia", "Rio", "Blanco", 4, "98765432-1")),
+        new Usuario("2000-07-20", "65432109-8", "usuario", "usuario4", "Passw0rd!", "Passw0rd!", "user4@duocuc.cl", new Vehiculo("AB 56 CD", "Kia", "Rio", "Gris", 4, "65432109-8")),
+        new Usuario("2000-07-20", "23432139-8", "usuario", "usuario5", "Passw0rd!", "Passw0rd!", "user5@duocuc.cl", new Vehiculo("EF 78 GH", "Hyundai", "Accent", "Rojo", 4, "23432139-8")),
+        
         // Usuarios sin vehículos
-        new Usuario("1992-12-12", "87654321-0", "usuario", "usuario2", "123", "123", "user2@duocuc.cl", undefined), // Sin vehículo
-        new Usuario("1995-03-03", "76543210-9", "usuario", "usuario3", "123", "123", "user3@duocuc.cl", undefined)  // Sin vehículo
+        new Usuario("1992-12-12", "87654321-0", "usuario", "usuario2", "Passw0rd!", "Passw0rd!", "user2@duocuc.cl", undefined), // Sin vehículo
+        new Usuario("1995-03-03", "76543210-9", "usuario", "usuario3", "Passw0rd!", "Passw0rd!", "user3@duocuc.cl", undefined)  // Sin vehículo
     ];
-    
+
     for (const usuario of usuarios) {
         await this.createUsuario(usuario);
     }
+
+
+
       if (usuariosRaw.length === 0) {
   
         //usuarios.forEach((usuario)=>this.createUsuario(usuario));

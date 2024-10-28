@@ -21,23 +21,23 @@ export class PerfilPage implements OnInit {
 
   editar:boolean=false;
 
-    /*personaForm =new FormGroup({
+  personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
     rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
     usuario:new FormControl( '', [Validators.required, Validators.minLength(3)]),
     contrasena:new FormControl( '', [Validators.required, Validators.pattern("^(?=.*[-!#$%&/()?¡_.])(?=.*[A-Za-z])(?=.*[a-z]).{8,}$")]),
     contrasena_conf:new FormControl( '', [Validators.required,Validators.pattern("^(?=.*[-!#$%&/()?¡_.])(?=.*[A-Za-z])(?=.*[a-z]).{8,}$")]),
     email: new FormControl('', [Validators.required,Validators.email, Validators.pattern("[a-zA-Z0-9.]+(@duocuc.cl)")]),
-    patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{2} [A-Z]{2}$/)]),
+    patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{2} [A-Z]{2}$/)]),  
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
     color:new FormControl('', []),
-    tieneVehiculo: new FormControl(false) 
+    tieneVehiculo: new FormControl(false),
+    plazas:new FormControl( '', [])
 
-  }, { validators: passwordMatchValidator() }); */
+  }, { validators: passwordMatchValidator() }); 
 
-
-    personaForm =new FormGroup({
+    /*personaForm =new FormGroup({
       fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
       rut: new FormControl('',[]),
       usuario:new FormControl( '', [Validators.required]),
@@ -51,7 +51,7 @@ export class PerfilPage implements OnInit {
       tieneVehiculo: new FormControl(false),
       plazas:new FormControl( '', [])
 
-    }, { validators: passwordMatchValidator() }); 
+    }, { validators: passwordMatchValidator() }); */
 
 
   usuarios:Usuario[] = [];
