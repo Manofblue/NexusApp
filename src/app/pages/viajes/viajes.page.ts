@@ -15,6 +15,8 @@ import { Route, Router } from '@angular/router';
 })
 export class ViajesPage implements OnInit {
 
+  mostrarListaViajesDisponibles: boolean = true; 
+  mostrarListaViajesTomados: boolean = false;
   viajes: Viaje[]| undefined;
   viajesTomados: Viaje[]| undefined;
   viajesCreados: Viaje[]| undefined;
@@ -38,6 +40,8 @@ export class ViajesPage implements OnInit {
   async ngOnInit() {
  
   this.setearViaje();
+
+  
 
 
     //this.viajes=(await this.viajeService.getAllViajes()).filter((v)=>v.getCapacidad()>0);
@@ -76,49 +80,50 @@ export class ViajesPage implements OnInit {
   }
 
   verDetalle(viaje: Viaje) {
-    this.latDest=viaje.getLatDest();
-    this.longDest=viaje.getLongDest();
-    this.originLat=viaje.getLatOrg();
-    this.originLon=viaje.getLongOrg();
-
-    console.log(this.latDest+" "+this.longDest+" "+this.originLat+" "+this.originLon)
-
+    this.latDest = viaje.getLatDest();
+    this.longDest = viaje.getLongDest();
+    this.originLat = viaje.getLatOrg();
+    this.originLon = viaje.getLongOrg();
+  
+    console.log(`${this.latDest} ${this.longDest} ${this.originLat} ${this.originLon}`);
+  
+    // Destruir el mapa existente si ya está creado
     if (this.map) {
-      this.map.remove();
+      this.map.remove(); // Elimina el mapa
+      this.map = undefined; // Limpia la referencia
     }
-
-    this.mapVisible = true; 
-
-    if (this.originLat && this.originLon) {
-
-        this.map = L.map("mapaVista").locate({ setView: true, maxZoom: 16 });
-        
+    
+  
+    // Hacer visible el contenedor del mapa
+    this.mapVisible = true;
+  
+    // Esperar un pequeño retraso para asegurarse de que el contenedor se haya renderizado completamente
+    setTimeout(() => {
+      if (this.originLat !== undefined && this.originLon !== undefined && this.latDest !== undefined && this.longDest !== undefined) {
+        // Crear el nuevo mapa si las coordenadas están definidas
+        this.map = L.map('mapaVista').setView([this.originLat, this.originLon], 16);
+      
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(this.map);
-  
-  
+      
         L.Routing.control({
           waypoints: [
             L.latLng(this.originLat, this.originLon), // Punto de origen
             L.latLng(this.latDest, this.longDest) // Punto de destino
           ],
-          fitSelectedRoutes: true, // Ajusta el mapa para mostrar la ruta
+          fitSelectedRoutes: true // Ajusta el mapa para mostrar la ruta
         }).on('routesfound', (e) => {
-          
+          // Manejar eventos de rutas encontradas si es necesario
         }).addTo(this.map);
-
+      } else {
+        console.log('Coordenadas no definidas, no se permite el mapa');
+      }
       
-      
-
-    // Configura la capa de teselas para la vista del mapa
-  
-
-    }else{
-      console.log("no se permite el mapa")
-    }
+    }, 100); // Retraso de 100ms para asegurar la renderización del contenedor
   }
+  
 
   async tomarViaje(viaje: Viaje) {
 
@@ -202,5 +207,15 @@ viaje:Viaje   */
     });
     await alert.present();
 
+  }
+
+  mostrarViajesDisponibles() {
+    this.mostrarListaViajesDisponibles = true;
+    this.mostrarListaViajesTomados = false;
+  }
+
+  mostrarViajesTomados() {
+    this.mostrarListaViajesDisponibles = false;
+    this.mostrarListaViajesTomados = true;
   }
 }

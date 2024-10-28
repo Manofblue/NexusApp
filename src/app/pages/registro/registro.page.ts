@@ -22,7 +22,7 @@ export class RegistroPage implements OnInit {
     contrasena:new FormControl( '', [Validators.required, Validators.pattern("^(?=.*[-!#$%&/()?¡_.])(?=.*[A-Za-z])(?=.*[a-z]).{8,}$")]),
     contrasena_conf:new FormControl( '', [Validators.required,Validators.pattern("^(?=.*[-!#$%&/()?¡_.])(?=.*[A-Za-z])(?=.*[a-z]).{8,}$")]),
     email: new FormControl('', [Validators.required,Validators.email, Validators.pattern("[a-zA-Z0-9.]+(@duocuc.cl)")]),
-    patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{4} [A-Z]{2}$/)]),
+    patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{2} [A-Z]{2}$/)]),
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
     color:new FormControl('', []),
@@ -81,7 +81,7 @@ export class RegistroPage implements OnInit {
     const mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;
 
     if (mostrarFormulario) {
-      this.personaForm.get('patente')?.setValidators([Validators.required,Validators.pattern(/^[A-Z]{2} \d{4} [A-Z]{2}$/)]);
+      this.personaForm.get('patente')?.setValidators([Validators.required,Validators.pattern(/^[A-Z]{2} \d{2} [A-Z]{2}$/)]);
       this.personaForm.get('marca')?.setValidators([Validators.required,Validators.minLength(3)]);
       this.personaForm.get('modelo')?.setValidators([Validators.required,Validators.minLength(3)]);
       this.personaForm.get('color')?.setValidators([Validators.required,Validators.minLength(3)]);

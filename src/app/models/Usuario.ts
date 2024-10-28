@@ -8,7 +8,7 @@ export class Usuario {
     private contrasena: string;
     private contrasena_conf: string;
     private email: string;
-    private vehiculo?: Vehiculo; // Atributo opcional para el vehículo
+    private vehiculo?: Vehiculo; 
 
 
 

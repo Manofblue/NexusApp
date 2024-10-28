@@ -3,4 +3,16 @@
     width: 100%;
     //margin: 10% 10% 10% 10%;
   }
+
+.boton-agregar {
+  position: fixed;
+  bottom: 16px;
+  right: 16px; 
+  width: 45px; 
+  height: 45px;
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+  
   

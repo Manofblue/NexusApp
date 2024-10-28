@@ -22,7 +22,7 @@ export class AdministrarPage implements OnInit {
     contrasena:new FormControl( '', [Validators.required]),
     contrasena_conf:new FormControl( '', [Validators.required]),
     email: new FormControl('', [Validators.required,Validators.email]),
-    patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{4} [A-Z]{2}$/)]),
+    patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{2} [A-Z]{2}$/)]),
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
     color:new FormControl('', []),
