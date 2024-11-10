@@ -15,7 +15,7 @@ export class RegistroPage implements OnInit {
 
   mostrarFormulario=false;
 
-  personaForm =new FormGroup({
+  /*personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
     rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
     usuario:new FormControl( '', [Validators.required, Validators.minLength(3)]),
@@ -29,16 +29,16 @@ export class RegistroPage implements OnInit {
     tieneVehiculo: new FormControl(false),
     aceptarPoliticas: new FormControl(false, Validators.requiredTrue)
 
-  }, { validators: passwordMatchValidator() }); 
+  }, { validators: passwordMatchValidator() }); */
 
-  /*personaForm =new FormGroup({
+  personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
     rut: new FormControl('',[]),
     usuario:new FormControl( '', [Validators.required]),
     contrasena:new FormControl( '', [Validators.required]),
     contrasena_conf:new FormControl( '', [Validators.required]),
     email: new FormControl('', [Validators.required,Validators.email]),
-    patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{4} [A-Z]{2}$/)]),
+    patente:new FormControl('', []),
     marca: new FormControl('',[]),
     modelo:new FormControl('', []),
     color:new FormControl('', []),
@@ -46,7 +46,7 @@ export class RegistroPage implements OnInit {
     plazas:new FormControl( '', []),
     aceptarPoliticas: new FormControl(false, Validators.requiredTrue)
 
-  }, { validators: passwordMatchValidator() }); */
+  }, { validators: passwordMatchValidator() }); 
 
 
 
