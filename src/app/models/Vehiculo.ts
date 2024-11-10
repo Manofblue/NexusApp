@@ -59,4 +59,15 @@ export class Vehiculo {
     public setRutDueno(rutDueno: string): void {
         this.rutDueno = rutDueno;
     }
+
+    toPlainObject() {
+        return {
+          patente: this.patente,
+          marca: this.marca,
+          modelo: this.modelo,
+          color: this.color,
+          plazas: this.plazas,
+          rutDueno:this.rutDueno
+        };
+    }
 }

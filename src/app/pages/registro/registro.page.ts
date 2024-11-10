@@ -82,7 +82,7 @@ export class RegistroPage implements OnInit {
     const mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;
 
     if (mostrarFormulario) {
-      this.personaForm.get('patente')?.setValidators([Validators.required,Validators.pattern(/^[A-Z]{2} \d{2} [A-Z]{2}$/)]);
+      this.personaForm.get('patente')?.setValidators([Validators.required]);
       this.personaForm.get('marca')?.setValidators([Validators.required,Validators.minLength(3)]);
       this.personaForm.get('modelo')?.setValidators([Validators.required,Validators.minLength(3)]);
       this.personaForm.get('color')?.setValidators([Validators.required,Validators.minLength(3)]);

@@ -3,13 +3,14 @@ import { Usuario } from '../models/Usuario';
 import { Storage } from '@ionic/storage-angular';
 import { UsuarioRepository } from '../repository/UsuarioRepository';
 import { LocalStorageRepository } from '../repository/LocalStorageRepository';
+import { FirebaseRepository } from '../repository/FirebaseRepository';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-
-    constructor(private usuarioRepository: LocalStorageRepository) { // Inyección de la interfaz
+    
+    constructor(private usuarioRepository: FirebaseRepository) { // Inyección de la interfaz
       this.init();
     }
 

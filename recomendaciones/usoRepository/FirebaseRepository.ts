@@ -1,6 +1,8 @@
 // firebase-repository.ts
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Usuario } from 'src/app/models/Usuario';
+import { UsuarioRepository } from 'src/app/repository/UsuarioRepository';
 
 
 @Injectable({

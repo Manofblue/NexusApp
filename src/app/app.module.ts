@@ -8,12 +8,19 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UsuarioRepository } from './repository/UsuarioRepository';
 import { LocalStorageRepository } from './repository/LocalStorageRepository';
+import { environment } from '../environments/environment.prod'
+//import { AngularFireModule } from '@angular/fire';
+//import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot({
     innerHTMLTemplatesEnabled: true
   }), AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
     IonicStorageModule.forRoot(),
     IonicStorageModule.forRoot()],
     providers: [
