@@ -8,6 +8,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { AlertController } from '@ionic/angular';
 import { EstadoViaje } from 'src/app/models/EstadoViaje';
 import { Route, Router } from '@angular/router';
+
+
 @Component({
   selector: 'app-viajes',
   templateUrl: './viajes.page.html',
@@ -69,6 +71,7 @@ export class ViajesPage implements OnInit {
   
     this.viajesTomados=(await this.viajeService.getAllViajes())
     .filter((viaje)=>viaje.tienePasejo(rutCokie));
+    console.log(this.viajesTomados);
     
     this.viajesCreados=(await this.viajeService.getAllViajes())
     .filter((viaje)=>viaje.getRutCreador()==rutCokie);
@@ -78,6 +81,20 @@ export class ViajesPage implements OnInit {
 
 
   }
+
+
+
+  public formatFechaHora(fecha: Date): string {
+    return fecha.toLocaleString('es-ES', {
+      weekday: 'long',    // Día de la semana en formato largo (Ej: "lunes")
+      year: 'numeric',    // Año en formato numérico
+      month: 'long',      // Mes en formato largo (Ej: "noviembre")
+      day: 'numeric',     // Día del mes en formato numérico
+      hour: '2-digit',    // Hora en formato de 2 dígitos
+      minute: '2-digit',  // Minutos en formato de 2 dígitos
+    });
+  }
+
 
   verDetalle(viaje: Viaje) {
     this.latDest = viaje.getLatDest();

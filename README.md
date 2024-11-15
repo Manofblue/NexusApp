@@ -1,5 +1,14 @@
 # NexusApp
 
+## TODO
+
+Aquí puedes encontrar una lista de tareas por hacer para mantener el proyecto organizado y al día:
+
+- [ ] **Actualizacion de viaje**: al tomar un viaje o bajarse, los cupos no responden bien .
+
+
+
+
 ## Descripción de nuestra App
 
 Este proyecto es una aplicación desarrollada con el objetivo de ayudar a los estudiantes de la jornada vespertina de Duoc UC en la sede de Puente Alto. Durante la pandemia, muchos estudiantes enfrentan la dificultad de acceder a transporte, lo que limita su capacidad para asistir a clases y actividades académicas.

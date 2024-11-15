@@ -135,7 +135,7 @@ export class ViajeRepositoryImplStorage implements ViajeRepository {
 
  
 
-  public async agregarPasajero(rut:String,viaje:Viaje):Promise<void>{
+  public async agregarPasajero(rut:string,viaje:Viaje):Promise<void>{
 
     const viajes: Viaje[] = await this.getAllViajes();
     const index = viajes.findIndex(v => v==viaje);

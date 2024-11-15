@@ -37,7 +37,7 @@
         <ion-card-content>
           <p><strong>Tiempo:</strong> {{ viaje.getDuracion() }} min</p>
           <p><strong>Distancia:</strong> {{ viaje.getDistancia() }} km</p>
-          <p><strong>Hora de Salida:</strong> {{ viaje.getHoraSalida() }}</p>
+          <p><strong>Hora de Salida:</strong> {{ formatFechaHora( viaje.getHoraSalida()) }}</p>
           <p><strong>Cupos:</strong> {{ viaje.getCapacidad() }} personas</p>
           <p><strong>Coste:</strong> ${{ viaje.getCoste() }}</p>
           <p><strong>Estado:</strong> {{ viaje.getEstado() }}</p>
@@ -67,7 +67,7 @@
         <ion-card-content>
           <p><strong>Tiempo:</strong> {{ viaje.getDuracion() }} min</p>
           <p><strong>Distancia:</strong> {{ viaje.getDistancia() }} km</p>
-          <p><strong>Hora de Salida:</strong> {{ viaje.getHoraSalida() }}</p>
+          <p><strong>Hora de Salida:</strong> {{ formatFechaHora( viaje.getHoraSalida()) }}</p>
           <p><strong>Cupos:</strong> {{ viaje.getCapacidad() }} personas</p>
           <p><strong>Coste:</strong> ${{ viaje.getCoste() }}</p>
           <p><strong>Estado:</strong> {{ viaje.getEstado() }}</p>
@@ -96,7 +96,7 @@
           <ion-card-content>
             <p><strong>Tiempo:</strong> {{ viaje.getDuracion() }} min</p>
             <p><strong>Distancia:</strong> {{ viaje.getDistancia() }} km</p>
-            <p><strong>Hora de Salida:</strong> {{ viaje.getHoraSalida() }}</p>
+            <p><strong>Hora de Salida:</strong> {{ formatFechaHora( viaje.getHoraSalida()) }}</p>
             <p><strong>Cupos:</strong> {{ viaje.getCapacidad() }} personas</p>
             <p><strong>Coste:</strong> ${{ viaje.getCoste() }}</p>
             <p><strong>Estado:</strong> {{ viaje.getEstado() }}</p>

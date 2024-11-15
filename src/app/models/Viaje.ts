@@ -14,7 +14,7 @@ export class Viaje {
     private estado: EstadoViaje;
     private capacidad: number; // Capacidad del viaje (número de plazas disponibles)
     private horaSalida: Date;
-    private pasajeros: String[];
+    private pasajeros: string[];
     private distancia:number;
 
     constructor(
@@ -53,7 +53,7 @@ export class Viaje {
         return numPasajeros <= this.getCapacidad();
     }
 
-    public agregarPasajero(rut: String): void {
+    public agregarPasajero(rut: string): void {
         this.pasajeros.push(rut);
         console.log(this.pasajeros);
     }
@@ -196,7 +196,7 @@ export class Viaje {
     public setHoraSalida(horaSalida: Date): void {
         this.horaSalida = horaSalida;
     }
-    public setPasajeros(pasajeros:String[]) {
+    public setPasajeros(pasajeros:string[]) {
         this.pasajeros=pasajeros;
     }
 

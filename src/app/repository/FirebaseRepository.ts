@@ -4,6 +4,7 @@ import { Usuario } from 'src/app/models/Usuario';
 import { UsuarioRepository } from 'src/app/repository/UsuarioRepository';
 import { Observable } from 'rxjs';
 import { Vehiculo } from '../models/Vehiculo';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class FirebaseRepository implements UsuarioRepository {
 
   private usuariosCollection = this.firestore.collection('usuarios'); // Colección en Firestore
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore,private authService:AuthService) {
 
     this.insertarAdmin();
   }
@@ -31,6 +32,12 @@ export class FirebaseRepository implements UsuarioRepository {
         contrasena_conf: usuario.getContrasenaConf(),
         email: usuario.getEmail(),
       };
+       
+      var respuesta= await this.authService.signUp(usuario.getEmail(),usuario.getContrasena());
+
+      if(respuesta){
+        console.log("Cuenta creada con exito");
+      }
 
       if (usuario.getVehiculo()) {
         usuarioData.vehiculo = usuario.getVehiculo()?.toPlainObject();  
@@ -67,7 +74,7 @@ export class FirebaseRepository implements UsuarioRepository {
 
       return true;
     } catch (error) {
-      console.error("Error al crear usuario:", error);
+      console.error("Error al update usuario:", error);
       return false;
     }
   }
@@ -198,9 +205,13 @@ export class FirebaseRepository implements UsuarioRepository {
   async login(correo: string, contrasena: string): Promise<boolean> {
     try {
       // Buscar al usuario en Firestore
+      
+      
       const usuarios = await this.getUsuarios();
       const usuario = usuarios.find(user => user.getEmail() === correo && user.getContrasena() === contrasena);
-      if (usuario) {
+      var usuarioAuth=await this.authService.login(correo,contrasena);
+
+      if (usuarioAuth&&usuario) {
         localStorage.clear();
         localStorage.setItem('rol', usuario.getTipoUsuario());
         localStorage.setItem('idUsuario', usuario.getRut());

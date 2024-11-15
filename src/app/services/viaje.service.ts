@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Viaje } from '../models/Viaje';
 import { ViajeRepository } from '../repository/ViajeRepository';
 import { ViajeRepositoryImplStorage } from '../repository/ViajeRepositoryImplStorage';
+import { ViajeRepositoryImplFirebase } from '../repository/ViajeRepositoryImplFirebase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViajeService {
 
-  constructor(private viajeRepository:ViajeRepositoryImplStorage) {
+  constructor(private viajeRepository:ViajeRepositoryImplFirebase) {
 
   }
 
@@ -32,7 +33,7 @@ export class ViajeService {
   async getAllViajes(): Promise<Viaje[]> {
     return await this.viajeRepository.getAllViajes();
   }
-  public async agregarPasajero(rut:String,viaje:Viaje):Promise<void>{
+  public async agregarPasajero(rut:string,viaje:Viaje):Promise<void>{
     this.viajeRepository.agregarPasajero(rut,viaje);
   }
 }
