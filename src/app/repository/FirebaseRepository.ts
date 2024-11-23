@@ -15,7 +15,7 @@ export class FirebaseRepository implements UsuarioRepository {
 
   constructor(private firestore: AngularFirestore,private authService:AuthService) {
 
-    this.insertarAdmin();
+    //this.insertarAdmin();
   }
 
 
@@ -83,7 +83,7 @@ export class FirebaseRepository implements UsuarioRepository {
 
   private async insertarAdmin(){
     try {
-    var admin= new Usuario("1990-01-01", "12345678-9", "admin", "admin", "1234!", "1234!", "admin@gmail.com")
+    var admin= new Usuario("1990-01-01", "12345678-9", "admin", "admin", "123456¡", "123456¡", "admin@gmail.com")
       this.createUsuario(admin);
 
     } catch (error) {

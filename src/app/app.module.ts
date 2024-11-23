@@ -17,6 +17,8 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { HttpClientModule } from '@angular/common/http';
+import { QrCodeModule } from 'ng-qrcode';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFirestoreModule,
     AngularFireAuthModule,
     HttpClientModule,
+    QrCodeModule,
     IonicStorageModule.forRoot(),
     IonicStorageModule.forRoot()],
     providers: [

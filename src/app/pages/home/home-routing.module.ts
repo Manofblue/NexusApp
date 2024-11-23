@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePage } from './home.page';
 import { authGuard } from 'src/app/guards/auth.guard';
-
 const routes: Routes = [
   {
     path: '',
@@ -28,7 +27,6 @@ const routes: Routes = [
         path: 'inicio',
         loadChildren: () => import('../inicio/inicio.module').then(m => m.InicioPageModule)
       },
-
       {
         path: 'administrar',
         canActivate: [authGuard],
@@ -44,15 +42,15 @@ const routes: Routes = [
         canActivate: [authGuard],
         loadChildren: () => import('../editar-viaje/editar-viaje.module').then(m => m.EditarViajePageModule),
       },
-    
       {
         path: '',
-        redirectTo: 'inicio',  // Redirige a inicio si no hay subruta especificada
+        redirectTo: '/home/inicio',  // Cambia esto a una ruta específica como /home/inicio
         pathMatch: 'full'
       }
     ]
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -37,17 +37,18 @@
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
+  {
+    "type": "initial",
+    "maximumWarning": "2MB",
+    "maximumError": "3MB"
+  },
+  {
+    "type": "all",
+    "maximumWarning": "2MB",
+    "maximumError": "5MB"
+  }
+],
+
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
