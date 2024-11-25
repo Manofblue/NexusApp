@@ -165,3 +165,53 @@ ion-card-footer {
 .button-container {
   margin-top: 20px;
 }
+
+
+.estado-en-curso {
+  color: green;
+}
+
+.estado-completado {
+  color: blue;
+}
+
+.estado-cancelado {
+  color: red;
+}
+
+.estado-pendiente {
+  color: orange;
+}
+
+
+/* Estilo para el fondo negro del dólar */
+.dolar-info {
+  background-color: black; /* Fondo negro */
+  color: white; /* Texto blanco */
+  padding: 15px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+/* Estilo para el fondo negro del clima */
+.clima-info {
+  background-color: black; /* Fondo negro */
+  color: white; /* Texto blanco */
+  padding: 15px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+/* Estilo adicional para el contenido dentro de las tarjetas */
+.precio-dolar ion-icon {
+  font-size: 40px;
+  color: #fff; /* Asegura que el icono sea blanco */
+}
+
+.clima-info h3, .precio-dolar h3 {
+  color: white; /* Asegura que los encabezados sean blancos */
+}
+
+.clima-info p, .precio-dolar p {
+  color: white; /* Asegura que los párrafos sean blancos */
+}

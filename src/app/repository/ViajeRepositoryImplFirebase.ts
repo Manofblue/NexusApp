@@ -122,11 +122,14 @@ export class ViajeRepositoryImplFirebase implements ViajeRepository {
       const viajeRef = this.firestore.collection('viajes').doc(id.toString());
       const snapshot = await viajeRef.get().toPromise();
 
+
       if (!snapshot?.exists) {
         return false; // Viaje no encontrado
       }
 
       await viajeRef.update(this.mapViajeToFirestore(viaje));
+
+
       return true;
     } catch (error) {
       console.error("Error al actualizar el viaje:", error);
@@ -167,6 +170,7 @@ export class ViajeRepositoryImplFirebase implements ViajeRepository {
 
   // Mapeo de un viaje a un formato Firestore para almacenar
   private mapViajeToFirestore(viaje: Viaje): any {
+    console.log(viaje);
     return {
       destino: viaje.getDestino(),
       coste: viaje.getCoste(),

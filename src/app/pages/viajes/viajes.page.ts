@@ -232,7 +232,7 @@ export class ViajesPage implements OnInit {
       BarcodeScanner.checkPermissions().then();
       BarcodeScanner.removeAllListeners();
     }
-    //this.fetchData(); // Llamar al método de obtener datos cuando el componente se inicializa
+    this.fetchData(); // Llamar al método de obtener datos cuando el componente se inicializa
 
     //this.viajes=(await this.viajeService.getAllViajes()).filter((v)=>v.getCapacidad()>0);
     
@@ -282,7 +282,6 @@ export class ViajesPage implements OnInit {
     this.viajesTomados=(await this.viajeService.getAllViajes())
     .filter((viaje)=>{
       var respuesta= viaje.tienePasejo(rutCokie)
-      console.log(respuesta);
       return respuesta;
     });
 
@@ -374,27 +373,48 @@ export class ViajesPage implements OnInit {
     // Aquí podrías agregar lógica para reservar el viaje
   }
 
-  async iniciarViaje(viaje: Viaje) {
 
+  async cambiarEstado(viaje: Viaje) {
     const alert = await this.alertController.create({
-      header: 'Confirmar Incio',
-      message: '¿Estás seguro de que deseas Iniciar este viaje?',
+      header: 'Confirmar Cambio de Estado',
+      message: '¿Qué estado deseas asignar al viaje?',
       buttons: [
         {
           text: 'Cancelar',
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Eliminación cancelada');
+            console.log('Cambio de estado cancelado');
           },
         },
         {
-          text: 'Inciar',
+          text: 'Iniciar',
           handler: async () => {
             viaje.setEstado(EstadoViaje.EnCurso);
-            await this.viajeService.updateViaje(viaje.getIdViaje(),viaje);
+            console.log("Cambio de estado a En Curso, pasajeros: " + viaje.getPasajeros());
+            await this.viajeService.updateViaje(viaje.getIdViaje(), viaje);
             this.setearViaje();
             this.mostrarMensaje('Viaje Iniciado con éxito.');
+          },
+        },
+        {
+          text: 'Completar',
+          handler: async () => {
+            viaje.setEstado(EstadoViaje.Completado);
+            console.log("Cambio de estado a Completado, pasajeros: " + viaje.getPasajeros());
+            await this.viajeService.updateViaje(viaje.getIdViaje(), viaje);
+            this.setearViaje();
+            this.mostrarMensaje('Viaje Completado con éxito.');
+          },
+        },
+        {
+          text: 'Cancelar Viaje',
+          handler: async () => {
+            viaje.setEstado(EstadoViaje.Cancelado);
+            console.log("Cambio de estado a Cancelado, pasajeros: " + viaje.getPasajeros());
+            await this.viajeService.updateViaje(viaje.getIdViaje(), viaje);
+            this.setearViaje();
+            this.mostrarMensaje('Viaje Cancelado con éxito.');
           },
         },
       ],
@@ -404,6 +424,50 @@ export class ViajesPage implements OnInit {
   }
 
 
+  async llegarADestino(viaje: Viaje) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Llegada',
+      message: '¿Estás seguro de que deseas marcar este viaje como completado?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Llegada cancelada');
+          },
+        },
+        {
+          text: 'Confirmar',
+          handler: async () => {
+            // Cambiar el estado del viaje a "Completado"
+
+            const rutCokie = localStorage.getItem('idUsuario');
+            if (rutCokie) {  
+              viaje.eliminarPasajero(rutCokie);
+
+            }
+            //viaje.setEstado(EstadoViaje.Completado);
+            //console.log("Cambio de estado a Completado: " + viaje.getPasajeros());
+            
+            // Actualizar el viaje en la base de datos
+            await this.viajeService.updateViaje(viaje.getIdViaje(), viaje);
+            
+            // Realizar otras acciones necesarias después de completar el viaje
+            this.setearViaje();
+            
+            // Mostrar mensaje de éxito
+            this.mostrarMensaje('Viaje completado exitosamente.');
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+  
+
+  
   /**
    * eliminarViaje
 viaje:Viaje   */

@@ -21,7 +21,7 @@ export class PerfilPage implements OnInit {
 
   editar:boolean=false;
 
-  personaForm =new FormGroup({
+  /*personaForm =new FormGroup({
     fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
     rut: new FormControl('',[Validators.required,Validators.pattern("[0-9]{7,8}-[0-9kK]{1}")]),
     usuario:new FormControl( '', [Validators.required, Validators.minLength(3)]),
@@ -35,23 +35,23 @@ export class PerfilPage implements OnInit {
     tieneVehiculo: new FormControl(false),
     plazas:new FormControl( '', [])
 
-  }, { validators: passwordMatchValidator() }); 
+  }, { validators: passwordMatchValidator() }); */
 
-    /*personaForm =new FormGroup({
+    personaForm =new FormGroup({
       fecha_nacimiento: new FormControl( '', [Validators.required, edadValidacion(18)]),
       rut: new FormControl('',[]),
       usuario:new FormControl( '', [Validators.required]),
       contrasena:new FormControl( '', [Validators.required]),
       contrasena_conf:new FormControl( '', [Validators.required]),
       email: new FormControl('', [Validators.required,Validators.email]),
-      patente:new FormControl('', [Validators.pattern(/^[A-Z]{2} \d{2} [A-Z]{2}$/)]),
+      patente:new FormControl('', []),
       marca: new FormControl('',[]),
       modelo:new FormControl('', []),
       color:new FormControl('', []),
       tieneVehiculo: new FormControl(false),
       plazas:new FormControl( '', [])
 
-    }, { validators: passwordMatchValidator() }); */
+    }, { validators: passwordMatchValidator() }); 
 
 
   usuarios:Usuario[] = [];
@@ -91,7 +91,7 @@ export class PerfilPage implements OnInit {
     const mostrarFormulario = this.personaForm.get('tieneVehiculo')?.value;
 
     if (mostrarFormulario) {
-      this.personaForm.get('patente')?.setValidators([Validators.required,Validators.pattern(/^[A-Z]{2} \d{4} [A-Z]{2}$/)]);
+      //this.personaForm.get('patente')?.setValidators([Validators.required,Validators.pattern(/^[A-Z]{2} \d{4} [A-Z]{2}$/)]);
       this.personaForm.get('marca')?.setValidators([Validators.required]);
       this.personaForm.get('modelo')?.setValidators([Validators.required]);
       this.personaForm.get('color')?.setValidators([Validators.required]);

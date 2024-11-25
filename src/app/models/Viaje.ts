@@ -55,7 +55,7 @@ export class Viaje {
 
     public agregarPasajero(rut: string): void {
         this.pasajeros.push(rut);
-        console.log(this.pasajeros);
+
     }
 
     // Métodos de acceso (getters)
@@ -100,7 +100,11 @@ export class Viaje {
     }
 
     public getCapacidad(): number {
-        return this.capacidad - this.pasajeros.length; // Capacidad restante
+        return this.capacidad; 
+    }
+
+    public getCupos(): number{
+        return this.capacidad - this.pasajeros.length; 
     }
 
     public getHoraSalida(): Date {
@@ -123,7 +127,7 @@ export class Viaje {
        //var respuesta=this.pasajeros.filter((psj)=>psj==rut&&this.estado==EstadoViaje.Pendiente);
 
         for (let index = 0; index < this.pasajeros.length; index++) {
-            if(this.pasajeros[index]==rut&&this.estado==EstadoViaje.Pendiente){
+            if(this.pasajeros[index]==rut){
                 return true;
             }
             
