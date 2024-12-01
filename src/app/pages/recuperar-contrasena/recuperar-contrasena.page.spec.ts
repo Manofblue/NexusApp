@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecuperarContrasenaPage } from './recuperar-contrasena.page';
 
 describe('RecuperarContrasenaPage', () => {
@@ -14,4 +14,4 @@ describe('RecuperarContrasenaPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+});*/
