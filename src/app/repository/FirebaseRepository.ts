@@ -208,7 +208,7 @@ export class FirebaseRepository implements UsuarioRepository {
       
       
       const usuarios = await this.getUsuarios();
-      const usuario = usuarios.find(user => user.getEmail() === correo && user.getContrasena() === contrasena);
+      const usuario = usuarios.find(user => user.getEmail() === correo);
       var usuarioAuth=await this.authService.login(correo,contrasena);
 
       if (usuarioAuth&&usuario) {

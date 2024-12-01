@@ -27,4 +27,9 @@ export class AuthService {
   }
 
 
+  resetPassword(email:string){
+    this.afAuth.sendPasswordResetEmail(email);
+    
+  }
+
 }

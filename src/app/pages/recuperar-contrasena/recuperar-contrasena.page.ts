@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 //import * as nodemailer from 'nodemailer';
@@ -14,7 +15,7 @@ export class RecuperarContrasenaPage implements OnInit {
 
   correo: string = "";
 
-  constructor(private alertController: AlertController, private usuarioService: UsuarioService) { }
+  constructor(private alertController: AlertController, private usuarioService: UsuarioService,private authService: AuthService) { }
 
   ngOnInit() {}
 
@@ -27,6 +28,7 @@ export class RecuperarContrasenaPage implements OnInit {
     try {
       const existeUsuario = await this.usuarioService.recuperarUsuario(this.correo);
       if (existeUsuario) {
+          this.authService.resetPassword(this.correo)
         this.showAlert('Correo enviado a ' + this.correo + ' para recuperar la contraseña.');
       } else {
         this.showAlert('No existe el correo: ' + this.correo);

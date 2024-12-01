@@ -53,7 +53,7 @@
 
       <ion-item class="ion-margin-vertical">
         <ion-icon name="key-outline" slot="end" color="primary"></ion-icon>
-        <ion-input formControlName="contrasena" type="password" labelPlacement="stacked" label="Contraseña" placeholder="Contraseña"></ion-input>
+        <ion-input formControlName="contrasena" type="password" labelPlacement="stacked" label="Contraseña" placeholder="Contraseña" readonly></ion-input>
         <div *ngIf="personaForm.errors?.['passwordMismatch']" class="error-message">
           Las contraseñas no coinciden.
         </div>
@@ -61,7 +61,7 @@
 
       <ion-item class="ion-margin-vertical">
         <ion-icon name="key-outline" slot="end" color="primary"></ion-icon>
-        <ion-input formControlName="contrasena_conf" type="password" labelPlacement="stacked" label="Repetir contraseña" placeholder="Confirmar contraseña"></ion-input>
+        <ion-input formControlName="contrasena_conf" type="password" labelPlacement="stacked" label="Repetir contraseña" placeholder="Confirmar contraseña" readonly></ion-input>
       </ion-item>
 
       <ion-item class="ion-margin-vertical">
