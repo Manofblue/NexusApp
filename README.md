@@ -30,10 +30,28 @@ Aquí puedes encontrar una lista de tareas por hacer para mantener el proyecto o
 
 ## 📲 **¿Cómo puedo usar la aplicación?**
 
-1. **Primero debes Clonar el repositorio**:git clone https://github.com/Manofblue/NexusApp 
-2. **Luego de clonar**:Ingresa a la carpeta del proyecto "cd NexusApp"
-3. **Dentro de la carpeta**:Escribe en consola "npm install" para terminar de descargar el proyecto
-4. **Inicia el servidor**:Dentro de la consola escribe "ionic serve", esto hará correr la App 
+1. **Primero debes clonar el repositorio**:  
+   `git clone https://github.com/Manofblue/NexusApp`
+
+2. **Luego de clonar**:  
+   Ingresa a la carpeta del proyecto con el comando:  
+   `cd NexusApp`
+
+3. **Dentro de la carpeta**:  
+   Escribe en consola:  
+   `npm install`  
+   Esto descargará las dependencias necesarias para ejecutar el proyecto.
+
+4. **Inicia el servidor**:  
+   Dentro de la consola escribe:  
+   `ionic serve`  
+   Esto hará correr la App en tu navegador.
+
+---
+
+🌐 **O también puedes ingresar a la aplicación a través de este [https://nexxus-80f29.web.app/login](#)** para probarla directamente en tu dispositivo Movil.
+
+
 
   <h2>👥 Colaboradores</h2>
 <div style="text-align: center; display: flex; justify-content: center; gap: 20px;">
