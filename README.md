@@ -15,11 +15,6 @@ Este proyecto es una aplicación desarrollada con el objetivo de ayudar a los es
 - **Fomenta la comunidad:** Conectamos a los estudiantes, promoviendo la colaboración y el apoyo mutuo.  
 - **Mejora la experiencia estudiantil:** Impactamos positivamente el rendimiento académico y el bienestar de los estudiantes al resolver un problema crítico.
 
-## 🔄  Actualizaciones
-
-Aquí puedes encontrar una lista de tareas por hacer para mantener el proyecto organizado y al día:
-
-- [ ] **Actualizacion de viaje**: al tomar un viaje o bajarse, los cupos no responden bien .
 
 ## 🛠️ **Tecnologías Utilizadas**
 - **Ionic Framework:** Para el desarrollo de aplicaciones móviles multiplataforma.  
@@ -39,7 +34,7 @@ Aquí puedes encontrar una lista de tareas por hacer para mantener el proyecto o
 <div style="text-align: center; display: flex; justify-content: center; gap: 20px;">
 
   <div>
-    <img src="src/assets/icon/cristobalIcon.jfif" alt="Cristobal Roman" style="border-radius: 50%; width: 100px; height: 100px; margin-bottom: 10px;">
+    <img src="src/assets/icon/momin.jfif" alt="Cristobal Roman" style="border-radius: 50%; width: 100px; height: 100px; margin-bottom: 10px;">
     <p><strong>Cristobal Román</strong>: Desarrollo y gestión del proyecto.</p>
     <p>📧 <a href="mailto:cr.roman@duocuc.cl">cr.roman@duocuc.cl</a></p>
   </div>
