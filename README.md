@@ -68,7 +68,7 @@ ionic --version
 
 ---
 
-🌐 **O también puedes ingresar a la aplicación a través de este [https://nexxus-80f29.web.app/login](#)** para probarla directamente en tu dispositivo Movil.
+🌐 **O también puedes ingresar a la aplicación a través de este [https://nexxus-80f29.web.app](#)** para probarla directamente en tu dispositivo Movil.
 
 
 
