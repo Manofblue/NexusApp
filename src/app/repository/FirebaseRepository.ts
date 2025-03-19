@@ -33,11 +33,11 @@ export class FirebaseRepository implements UsuarioRepository {
         email: usuario.getEmail(),
       };
        
-      var respuesta= await this.authService.signUp(usuario.getEmail(),usuario.getContrasena());
+      /*var respuesta= await this.authService.signUp(usuario.getEmail(),usuario.getContrasena());
 
       if(respuesta){
         console.log("Cuenta creada con exito");
-      }
+      }*/
 
       if (usuario.getVehiculo()) {
         usuarioData.vehiculo = usuario.getVehiculo()?.toPlainObject();  
@@ -209,9 +209,9 @@ export class FirebaseRepository implements UsuarioRepository {
       
       const usuarios = await this.getUsuarios();
       const usuario = usuarios.find(user => user.getEmail() === correo);
-      var usuarioAuth=await this.authService.login(correo,contrasena);
+      //var usuarioAuth=await this.authService.login(correo,contrasena);
 
-      if (usuarioAuth&&usuario) {
+      if(usuario?.getContrasena()==contrasena){
         localStorage.clear();
         localStorage.setItem('rol', usuario.getTipoUsuario());
         localStorage.setItem('idUsuario', usuario.getRut());
@@ -219,6 +219,17 @@ export class FirebaseRepository implements UsuarioRepository {
       } else {
         return false;
       }
+      
+
+
+      /*if (usuarioAuth&&usuario) {
+        localStorage.clear();
+        localStorage.setItem('rol', usuario.getTipoUsuario());
+        localStorage.setItem('idUsuario', usuario.getRut());
+        return true;
+      } else {
+        return false;
+      }*/
     } catch (error) {
       console.error("Error en el login:", error);
       return false;
