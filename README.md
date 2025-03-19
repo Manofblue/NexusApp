@@ -23,6 +23,30 @@ Este proyecto es una aplicación desarrollada con el objetivo de ayudar a los es
 - **Firebase:** Gestión de datos en tiempo real y autenticación de usuarios.
 - **Android Studio**: Para la compilación, depuración y generación del archivo APK de la aplicación.
 
+
+
+## 🔧 **Dependencias y Requisitos del Entorno**
+
+Asegúrate de tener instalados los siguientes programas y dependencias para ejecutar el proyecto de **Ionic/Angular** correctamente.
+
+### 1. **Node.js**
+Ionic y Angular requieren **Node.js** para funcionar correctamente. Asegúrate de tener una versión compatible instalada.
+
+- **Versión recomendada de Node.js**: **16.x** o superior.
+- Verifica tu versión de Node.js con el siguiente comando:
+
+```bash
+node -v
+
+npm install -g @angular/cli
+ng --version
+
+npm install -g @ionic/cli
+ionic --version
+
+```
+
+
 ## 📲 **¿Cómo puedo usar la aplicación?**
 
 1. **Primero debes clonar el repositorio**:  
